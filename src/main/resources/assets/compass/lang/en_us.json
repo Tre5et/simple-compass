@@ -1,0 +1,24 @@
+{
+  "key.compass.config_gui" : "Open Configuration",
+  "category.compass.compass": "Simple Compass",
+  "config.compass.compassConfig.compassScale": "Compass Scale",
+  "config.compass.compassConfig.enabled": "Compass Enabled",
+
+  "config.compass.compassConfig.compassConfigWaypoint0": "Waypoint A",
+  "config.compass.compassConfig.compassConfigWaypoint0.waypointX": "Waypoint X",
+  "config.compass.compassConfig.compassConfigWaypoint0.waypointZ": "Waypoint Z",
+  "config.compass.compassConfig.compassConfigWaypoint0.displayed": "Displayed",
+  "config.compass.compassConfig.compassConfigWaypoint1": "Waypoint B",
+  "config.compass.compassConfig.compassConfigWaypoint1.waypointX": "Waypoint X",
+  "config.compass.compassConfig.compassConfigWaypoint1.waypointZ": "Waypoint Z",
+  "config.compass.compassConfig.compassConfigWaypoint1.displayed": "Displayed",
+  "config.compass.compassConfig.compassConfigWaypoint2": "Waypoint C",
+  "config.compass.compassConfig.compassConfigWaypoint2.waypointX": "Waypoint X",
+  "config.compass.compassConfig.compassConfigWaypoint2.waypointZ": "Waypoint Z",
+  "config.compass.compassConfig.compassConfigWaypoint2.displayed": "Displayed",
+  "config.compass.compassConfig.compassConfigWaypoint3": "Waypoint D",
+  "config.compass.compassConfig.compassConfigWaypoint3.waypointX": "Waypoint X",
+  "config.compass.compassConfig.compassConfigWaypoint3.waypointZ": "Waypoint Z",
+  "config.compass.compassConfig.compassConfigWaypoint3.displayed": "Displayed"
+
+}
