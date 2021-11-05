@@ -1,9 +1,16 @@
-# Fabric Example Mod
+# Simple Compass by TreSet
+
+## Description
+
+This mod creates a simple and clean RPG-like compass showing indicators for the four cardinal directions on the ingame HUD.
+You can set up to four waypoints which are displayed alongside the cardinal directions.
+The settings page opens by pressing H by defaut and can be customized accesed via [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu).
 
 ## Setup
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+This mod requires [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api)!
+Put the .jar file from [releases](https://github.com/Tre5et/simple-compass/releases) into your Minecraft Mod folder.
 
 ## License
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+This mod is available under the MIT license. Feel free to modify it and incorporate it in your own projects.
