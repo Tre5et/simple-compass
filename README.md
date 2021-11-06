@@ -4,7 +4,7 @@
 
 ## Description
 
-This mod creates a simple and clean compass bar showing indicators for the four cardinal directions on the ingame HUD.
+This mod creates a simple and clean RPG-like compass showing indicators for the four cardinal directions on the ingame HUD.
 You can set up to four waypoints which are displayed alongside the cardinal directions.
 
 The settings page opens by pressing H by defaut and can be accesed via [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu).

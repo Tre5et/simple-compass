@@ -9,9 +9,9 @@ import net.treset.compass.config.waypoints.CompassConfigWaypoint3;
 
 public class CompassConfig implements ConfigGroup {
     @ConfigEntry
-    public static float compassScale = 1;
-    @ConfigEntry
     public static boolean enabled = true;
+    @ConfigEntry
+    public static float compassScale = 2;
 
     @Transitive
     CompassConfigWaypoint0 waypoint0 = new CompassConfigWaypoint0();

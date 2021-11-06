@@ -4,13 +4,14 @@
   "version": "${version}",
 
   "name": "Simple Compass",
-  "description": "Mod that creates a simple compass!",
+  "description": "Mod that creates a simple HUD compass!",
   "authors": [
     "TreSet"
   ],
   "contact": {
-    "homepage": "https://www.rhcl.de",
-    "sources": ""
+    "homepage": "https://github.com/Tre5et/simple-compass/releases",
+    "sources": "https://github.com/Tre5et/simple-compass",
+    "issues": "https://github.com/Tre5et/simple-compass/issues"
   },
 
   "license": "MIT",
@@ -36,6 +37,6 @@
     "java": ">=16"
   },
   "suggests": {
-    "another-mod": "*"
+    "another-mod": "Fabric API"
   }
 }
