@@ -21,12 +21,14 @@ public class CompassGui {
     private static final Identifier SPRITESHEET = new Identifier(CompassMod.MOD_ID, "textures/gui/compass.png");
 
     private static final MinecraftClient cli = MinecraftClient.getInstance();
-    private static final Entity cam = Objects.requireNonNull(cli.getCameraEntity());
+    private static Entity cam;
 
     public static void drawCompass(MatrixStack matrices) {
+        cam = Objects.requireNonNull(cli.getCameraEntity());
+
         if(!CompassConfig.enabled) return;
         int directionSpriteHeight = 32;
-        if(!CompassConfig.showArrows) directionSpriteHeight = 16;
+        if(!CompassConfig.showArrows) directionSpriteHeight = 15;
 
         setWaypointsToPlayer();
 
