@@ -1,13 +1,7 @@
 package net.treset.compass.mixin;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
-import net.treset.compass.CompassMod;
-import net.treset.compass.client.ModMinecraftClient;
 import net.treset.compass.gui.CompassGui;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

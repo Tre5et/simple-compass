@@ -8,4 +8,5 @@ public class CompassConfigWaypoint0 implements ConfigGroup {
     public static boolean displayed = false;
     public static int waypointX = 0;
     public static int waypointZ = 0;
+    public static boolean setToPlayer = false;
 }

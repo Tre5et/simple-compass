@@ -2,6 +2,9 @@ package net.treset.compass;
 
 import me.lortseam.completeconfig.data.Config;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.world.ServerWorld;
 import net.treset.compass.config.CompassConfig;
 import net.treset.compass.config.CompassConfigScreen;
 import org.apache.logging.log4j.LogManager;
