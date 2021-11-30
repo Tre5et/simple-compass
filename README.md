@@ -11,7 +11,7 @@ The settings page opens by pressing H by defaut and can be accesed via [Mod Menu
 
 ## Setup
 
-This mod requires [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) and [Malilib](https://www.curseforge.com/minecraft/mc-mods/malilib) (since v1.2.0)!
+This mod requires [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) and [MaLiLib](https://www.curseforge.com/minecraft/mc-mods/malilib) (since v1.2.0)!
 
 Put the .jar file from [releases](https://github.com/Tre5et/simple-compass/releases) into your Minecraft Mod folder.
 
