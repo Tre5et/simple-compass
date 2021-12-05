@@ -23,15 +23,19 @@ public class CompassConfig implements IConfigHandler {
     public static final int CONFIG_VERSION = 0;
 
     public static class General {
-        public static final ConfigBoolean ENABLED = new ConfigBoolean("Enabled", true, "Enable or disable the mod");
-        public static final ConfigDouble COMPASS_SCALE = new ConfigDouble("Compass Scale", 2, 1, 15, "Scale (width) of the compass");
+        public static final ConfigBoolean ENABLED = new ConfigBoolean("Enabled", true, "Enable or disable the Compass");
         public static final ConfigBoolean MINIMALIST_MODE = new ConfigBoolean("Minimalist Mode", false, "Hide all the fancy colory bits");
+        public static final ConfigDouble COMPASS_SCALE = new ConfigDouble("Compass Scale", 2, 1, 15, "Scale (width) of the Compass");
+        public static final ConfigDouble DIR_SCALE = new ConfigDouble("Direction Size", 1, 0.1, 10, "Size of the Direction indicators");
+        public static final ConfigDouble WP_SCALE = new ConfigDouble("Waypint Size", 1, 0.1, 10, "Size of the Waypoint indicators");
         //public static final ConfigHotkey OPEN_CONFIG_GUI = new ConfigHotkey("Open Config Gui", "O", "Hotkey to open this settings screen");
 
         public static final ImmutableList<IConfigBase> OPTIONS = ImmutableList.of(
                 ENABLED,
+                MINIMALIST_MODE,
                 COMPASS_SCALE,
-                MINIMALIST_MODE//,
+                DIR_SCALE,
+                WP_SCALE
                 //OPEN_CONFIG_GUI
         );
     }

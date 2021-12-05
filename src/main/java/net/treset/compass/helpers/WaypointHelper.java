@@ -53,15 +53,19 @@ public class WaypointHelper {
     }
 
     public static void setWaypointsToPlayer() {
+        if(MinecraftClient.getInstance().currentScreen != CompassModClient.configScreen) return;
+        MinecraftClient cli = MinecraftClient.getInstance();
+
         ConfigBoolean[] wpToPlayer = CompassConfig.Waypoints.SET_PLAYER_OPTIONS;
         ConfigInteger[] wpCoords = CompassConfig.Waypoints.COORDS;
 
         for(int i = 0; i <= 3; i++){
             if(wpToPlayer[i].getBooleanValue()) {
-                if(MinecraftClient.getInstance().getCameraEntity() != null) {
+                if(cli.player != null) {
+                    double coordScale = cli.player.clientWorld.getDimension().getCoordinateScale();
                     double[] pos = PlayerHelper.getPos();
-                    wpCoords[i*2].setIntegerValue((Math.round((float)pos[0])));
-                    wpCoords[i*2+1].setIntegerValue((Math.round((float)pos[1])));
+                    wpCoords[i*2].setIntegerValue((Math.round((float)(pos[0] * coordScale))));
+                    wpCoords[i*2+1].setIntegerValue((Math.round((float)(pos[1] * coordScale))));
                 }
                 wpToPlayer[i].setBooleanValue(false);
                 CompassModClient.configScreen.reloadEntries();
