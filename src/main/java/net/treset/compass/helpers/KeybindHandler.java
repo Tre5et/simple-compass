@@ -4,7 +4,6 @@ import fi.dy.masa.malilib.gui.GuiBase;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.treset.compass.CompassMod;
 import net.treset.compass.CompassModClient;
 import net.treset.compass.config.gui.CompassConfigGui;
 
@@ -23,7 +22,6 @@ public class KeybindHandler {
 
     public static void resolveKeybinds() {
         while(keys.get(0).isPressed()) {
-            CompassMod.LOGGER.info("O pressed");
             CompassModClient.configScreen = new CompassConfigGui();
             GuiBase.openGui(CompassModClient.configScreen);
         }
