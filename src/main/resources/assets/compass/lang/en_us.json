@@ -1,0 +1,35 @@
+{
+  "key.compass.config_gui" : "Open Configuration",
+  "category.compass.compass": "Simple Compass",
+
+  "config.compass": "General",
+  "config.compass.compassScale": "Compass Scale",
+  "config.compass.enabled": "Compass Enabled",
+  "config.compass.showArrows": "Show Arrows Under Directions",
+
+  "config.compass.waypoints": "Waypoints",
+  "config.compass.waypoints.compassConfigWaypoint0": "Waypoint A",
+  "config.compass.waypoints.compassConfigWaypoint0.waypointX": "Waypoint X",
+  "config.compass.waypoints.compassConfigWaypoint0.waypointZ": "Waypoint Z",
+  "config.compass.waypoints.compassConfigWaypoint0.displayed": "Displayed",
+  "config.compass.waypoints.compassConfigWaypoint0.setToPlayer": "Set to Player's Position",
+  "config.compass.waypoints.compassConfigWaypoint1": "Waypoint B",
+  "config.compass.waypoints.compassConfigWaypoint1.waypointX": "Waypoint X",
+  "config.compass.waypoints.compassConfigWaypoint1.waypointZ": "Waypoint Z",
+  "config.compass.waypoints.compassConfigWaypoint1.displayed": "Displayed",
+  "config.compass.waypoints.compassConfigWaypoint1.setToPlayer": "Set to Player's Position",
+  "config.compass.waypoints.compassConfigWaypoint2": "Waypoint C",
+  "config.compass.waypoints.compassConfigWaypoint2.waypointX": "Waypoint X",
+  "config.compass.waypoints.compassConfigWaypoint2.waypointZ": "Waypoint Z",
+  "config.compass.waypoints.compassConfigWaypoint2.displayed": "Displayed",
+  "config.compass.waypoints.compassConfigWaypoint2.setToPlayer": "Set to Player's Position",
+  "config.compass.waypoints.compassConfigWaypoint3": "Waypoint D",
+  "config.compass.waypoints.compassConfigWaypoint3.waypointX": "Waypoint X",
+  "config.compass.waypoints.compassConfigWaypoint3.waypointZ": "Waypoint Z",
+  "config.compass.waypoints.compassConfigWaypoint3.displayed": "Displayed",
+  "config.compass.waypoints.compassConfigWaypoint3.setToPlayer": "Set to Player's Position",
+
+  "config.compass.gui.button.general": "General",
+  "config.compass.gui.button.waypoints": "Waypoints",
+  "config.compass.gui.title": "Simple Compass Settings"
+}
