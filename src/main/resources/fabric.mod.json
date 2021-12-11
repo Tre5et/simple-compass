@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "id": "compass",
+  "version": "${version}",
+
+  "name": "Simple Compass",
+  "description": "Mod that creates a simple HUD compass!",
+  "authors": [
+    "TreSet"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Tre5et/simple-compass/releases",
+    "sources": "https://github.com/Tre5et/simple-compass",
+    "issues": "https://github.com/Tre5et/simple-compass/issues"
+  },
+
+  "license": "MIT",
+  "icon": "assets/compass/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.treset.compass.CompassMod"
+    ],
+    "client": [
+      "net.treset.compass.CompassClient"
+    ],
+    "modmenu": [
+      "net.treset.compass.modmenu.ModMenuCompat"
+    ]
+  },
+  "mixins": [
+    "compass.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.18.x",
+    "java": ">=17"
+  },
+  "suggests": {
+    "fabric-api": "Fabric API",
+    "malilib": "MaLiLib"
+  }
+}
