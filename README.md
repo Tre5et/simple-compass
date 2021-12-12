@@ -27,4 +27,4 @@ Put the .jar file from [releases](https://github.com/Tre5et/simple-compass/relea
 
 ## License
 
-This mod is available under the GNU v3 license. Feel free to redistribute, modify and incorporate it in your own open-source projects.
+This mod is available under the GNU GPLv3 license. Feel free to redistribute, modify and incorporate it in your own open-source projects.
