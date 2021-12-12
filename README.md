@@ -15,6 +15,16 @@ This mod requires [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabr
 
 Put the .jar file from [releases](https://github.com/Tre5et/simple-compass/releases) into your Minecraft Mod folder.
 
+## List of features (v1.4.0)
+
+- simple, clean compass bar
+- easy to use ingame settings menu
+- four, per world customizable waypoints
+- adjustable compass scale (width)
+- individually adjustable direction and waypoint sprite size
+- minimalist mode: removes all color on the compass (displays only the letters)
+- proper waypoint scaling in the nether
+
 ## License
 
 This mod is available under the MIT license. Feel free to modify it and incorporate it in your own projects.
