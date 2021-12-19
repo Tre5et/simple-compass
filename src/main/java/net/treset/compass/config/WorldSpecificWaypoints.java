@@ -65,6 +65,8 @@ public class WorldSpecificWaypoints {
     }
 
     public static void resetGlobalWaypoints() { //set the displayed waypoints to defaults
+        Config.loadFromFile();
+
         Config.Waypoints.WAYPOINT_A.setBooleanValue(false);
         Config.Waypoints.WAYPOINT_B.setBooleanValue(false);
         Config.Waypoints.WAYPOINT_C.setBooleanValue(false);
