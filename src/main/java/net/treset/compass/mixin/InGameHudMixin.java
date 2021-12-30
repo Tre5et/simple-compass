@@ -14,6 +14,6 @@ public class InGameHudMixin {
     @Inject(method = "render", at = @At("TAIL"), cancellable = true)
     public void onRender (MatrixStack matrices, float tickDelta, CallbackInfo info) {
 
-        HudCompass.drawCompass(matrices); //draw compass
+        HudCompass.handleCompass(matrices); //draw compass
     }
 }

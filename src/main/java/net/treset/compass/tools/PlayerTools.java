@@ -4,6 +4,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.integrated.IntegratedServer;
 
@@ -60,5 +63,17 @@ public class PlayerTools {
             }
         }
         return null;
+    }
+
+    public static boolean isHoldingCompass() {
+        if(!doesPlayerExist()) return false;
+        PlayerEntity player = MinecraftClient.getInstance().player;
+        ItemStack handStack = player.getMainHandStack();
+        ItemStack offHandStack = player.getOffHandStack();
+
+        if(ItemStack.areItemsEqualIgnoreDamage(new ItemStack(Items.COMPASS), handStack) ||
+            ItemStack.areItemsEqualIgnoreDamage(new ItemStack(Items.COMPASS), offHandStack)) return true;
+
+        return false;
     }
 }
