@@ -14,7 +14,7 @@
     "issues": "https://github.com/Tre5et/simple-compass/issues"
   },
 
-  "license": "MIT",
+  "license": "GPL-3.0",
   "icon": "assets/compass/icon.png",
 
   "environment": "*",

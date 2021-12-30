@@ -3,14 +3,14 @@ package net.treset.compass.config;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import fi.dy.masa.malilib.config.ConfigUtils;
-import fi.dy.masa.malilib.config.IConfigBase;
-import fi.dy.masa.malilib.config.IConfigHandler;
+import fi.dy.masa.malilib.config.*;
 import fi.dy.masa.malilib.config.options.ConfigBoolean;
 import fi.dy.masa.malilib.config.options.ConfigDouble;
 import fi.dy.masa.malilib.config.options.ConfigInteger;
+import fi.dy.masa.malilib.config.options.ConfigOptionList;
 import fi.dy.masa.malilib.util.FileUtils;
 import net.treset.compass.CompassMod;
+import net.treset.compass.config.lists.DisplayMode;
 import net.treset.compass.tools.FileTools;
 
 import java.io.File;
@@ -22,14 +22,16 @@ public class Config implements IConfigHandler {
     public static final int CONFIG_VERSION = 0;
 
     public static class General { //general options
-        public static final ConfigBoolean ENABLED = new ConfigBoolean("Enabled", true, "Enable or disable the Compass");
+        public static final ConfigOptionList DIR_DISPLAY_MODE = new ConfigOptionList("Direction Display Mode", DisplayMode.ALWAYS,"When the Directions should be displayed");
+        public static final ConfigOptionList WP_DISPLAY_MODE = new ConfigOptionList("Waypoint Display Mode", DisplayMode.ALWAYS, "When the Waypoints should be displayed");
         public static final ConfigBoolean MINIMALIST_MODE = new ConfigBoolean("Minimalist Mode", false, "Hide all the fancy colory bits");
         public static final ConfigDouble COMPASS_SCALE = new ConfigDouble("Compass Scale", 2, 1, 15, "Scale (width) of the Compass");
         public static final ConfigDouble DIR_SCALE = new ConfigDouble("Direction Size", 1, 0.1, 10, "Size of the Direction indicators");
-        public static final ConfigDouble WP_SCALE = new ConfigDouble("Waypint Size", 1, 0.1, 10, "Size of the Waypoint indicators");
+        public static final ConfigDouble WP_SCALE = new ConfigDouble("Waypoint Size", 1, 0.1, 10, "Size of the Waypoint indicators");
 
         public static final ImmutableList<IConfigBase> OPTIONS = ImmutableList.of(
-                ENABLED,
+                DIR_DISPLAY_MODE,
+                WP_DISPLAY_MODE,
                 MINIMALIST_MODE,
                 COMPASS_SCALE,
                 DIR_SCALE,
