@@ -5,7 +5,7 @@ import fi.dy.masa.malilib.config.options.ConfigBoolean;
 import fi.dy.masa.malilib.config.options.ConfigInteger;
 import net.minecraft.client.MinecraftClient;
 import net.treset.compass.CompassClient;
-import net.treset.compass.config.Config;
+import net.treset.compass.config.Config_o;
 import net.treset.compass.hud.HudCompass;
 
 import java.util.Arrays;
@@ -20,7 +20,7 @@ public class WaypointTools {
     public static void setWaypointsOptions() {
         HudCompass.forceUpdateNextFrame = true; //all settings apply instantly
 
-        ConfigBoolean[] wpShow = Config.Waypoints.SHOW_OPTIONS;
+        ConfigBoolean[] wpShow = Config_o.Waypoints.SHOW_OPTIONS;
 
         for(int i = 0; i <= 3; i ++) {
             if(wpShow[i].getBooleanValue() != prevWpShow[i]) { //waypoint option has changed
@@ -32,25 +32,25 @@ public class WaypointTools {
     }
 
     public static void addWaypointsOption(int waypointIndex) {
-        IConfigBase[] allOpt = Config.Waypoints.ALL_OPTIONS.toArray(new IConfigBase[Config.Waypoints.ALL_OPTIONS.size()]);
+        IConfigBase[] allOpt = Config_o.Waypoints.ALL_OPTIONS.toArray(new IConfigBase[Config_o.Waypoints.ALL_OPTIONS.size()]);
 
         List<IConfigBase> relevantOpt = Arrays.asList(
                 allOpt[waypointIndex*4+1], allOpt[waypointIndex*4+2], allOpt[waypointIndex*4+3] //select options to add
         );
 
-        Config.Waypoints.OPTIONS.addAll(Config.Waypoints.OPTIONS.indexOf(allOpt[waypointIndex*4]) + 1, relevantOpt); //add options at correct position
+        Config_o.Waypoints.OPTIONS.addAll(Config_o.Waypoints.OPTIONS.indexOf(allOpt[waypointIndex*4]) + 1, relevantOpt); //add options at correct position
 
         if(CompassClient.configScreen != null) CompassClient.configScreen.reloadEntries(); //refresh to display new options
     }
 
     public static void removeWaypointsOption(int waypointIndex) {
-        IConfigBase[] allOpt = Config.Waypoints.ALL_OPTIONS.toArray(new IConfigBase[Config.Waypoints.ALL_OPTIONS.size()]);
+        IConfigBase[] allOpt = Config_o.Waypoints.ALL_OPTIONS.toArray(new IConfigBase[Config_o.Waypoints.ALL_OPTIONS.size()]);
 
         List<IConfigBase> relevantOpt = Arrays.asList(
                 allOpt[waypointIndex*4+1], allOpt[waypointIndex*4+2], allOpt[waypointIndex*4+3] //select options to remove
         );
 
-        Config.Waypoints.OPTIONS.removeAll(relevantOpt); //remove options by finding them
+        Config_o.Waypoints.OPTIONS.removeAll(relevantOpt); //remove options by finding them
 
         if(CompassClient.configScreen != null) CompassClient.configScreen.reloadEntries(); //refresh to hide hidden options
     }
@@ -58,8 +58,8 @@ public class WaypointTools {
     public static void setWaypointsToPlayer() {
         MinecraftClient cli = MinecraftClient.getInstance();
 
-        ConfigBoolean[] wpToPlayer = Config.Waypoints.SET_PLAYER_OPTIONS;
-        ConfigInteger[] wpCoords = Config.Waypoints.COORDS;
+        ConfigBoolean[] wpToPlayer = Config_o.Waypoints.SET_PLAYER_OPTIONS;
+        ConfigInteger[] wpCoords = Config_o.Waypoints.COORDS;
 
         for(int i = 0; i <= 3; i++){
             if(wpToPlayer[i].getBooleanValue()) { //is waypoint supposed to be set to player?

@@ -7,7 +7,7 @@ import fi.dy.masa.malilib.gui.button.ButtonGeneric;
 import fi.dy.masa.malilib.gui.button.IButtonActionListener;
 import fi.dy.masa.malilib.util.StringUtils;
 import net.treset.compass.CompassMod;
-import net.treset.compass.config.Config;
+import net.treset.compass.config.Config_o;
 
 import java.util.Collections;
 import java.util.List;
@@ -71,9 +71,9 @@ public class ConfigGui extends GuiConfigsBase {
         ConfigGuiTab tab = ConfigGui.tab;
 
         if (tab == ConfigGuiTab.GENERAL) {
-            configs = Config.General.OPTIONS;
+            configs = Config_o.General.OPTIONS;
         } else if (tab == ConfigGuiTab.WAYPOINTS) {
-            configs = Config.Waypoints.OPTIONS;
+            configs = Config_o.Waypoints.OPTIONS;
         } else {
             configs = Collections.emptyList();
         }

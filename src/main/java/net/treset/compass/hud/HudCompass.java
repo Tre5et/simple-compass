@@ -9,7 +9,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import net.treset.compass.CompassMod;
-import net.treset.compass.config.Config;
+import net.treset.compass.config.Config_o;
 import net.treset.compass.config.lists.DisplayMode;
 import net.treset.compass.tools.PlayerTools;
 
@@ -71,7 +71,7 @@ public class HudCompass {
         float camYaw = getYaw();
 
         float imgPos = 0;
-        float compassScale = (float) Config.General.COMPASS_SCALE.getDoubleValue();
+        float compassScale = (float) Config_o.General.COMPASS_SCALE.getDoubleValue();
 
         float imageOffset = (float) (0.5 * width); //offset to account for image with
         float compassOffset = (float) (0.5 * (compassScale - 1)); //offset to account for compass scale
@@ -115,23 +115,23 @@ public class HudCompass {
     }
 
     private static boolean shouldDrawDirections() {
-        if (!Config.General.DIR_DISPLAY_MODE.getOptionListValue().equals(DisplayMode.NEVER) &&
+        if (!Config_o.General.DIR_DISPLAY_MODE.getOptionListValue().equals(DisplayMode.NEVER) &&
                 cam != null &&
-                !(Config.General.DIR_DISPLAY_MODE.getOptionListValue().equals(DisplayMode.WHEN_HOLDING_COMPASS) && !PlayerTools.isHoldingCompass()))
+                !(Config_o.General.DIR_DISPLAY_MODE.getOptionListValue().equals(DisplayMode.WHEN_HOLDING_COMPASS) && !PlayerTools.isHoldingCompass()))
             return true;
         return false;
     }
 
     private static boolean shouldDrawWaypoints() {
-        if (!Config.General.WP_DISPLAY_MODE.getOptionListValue().equals(DisplayMode.NEVER) &&
-                !(Config.General.WP_DISPLAY_MODE.getOptionListValue().equals(DisplayMode.WHEN_HOLDING_COMPASS) && !PlayerTools.isHoldingCompass()))
+        if (!Config_o.General.WP_DISPLAY_MODE.getOptionListValue().equals(DisplayMode.NEVER) &&
+                !(Config_o.General.WP_DISPLAY_MODE.getOptionListValue().equals(DisplayMode.WHEN_HOLDING_COMPASS) && !PlayerTools.isHoldingCompass()))
             return true;
         return false;
     }
 
     private static void updatePositions(int tileSize) {
-        float dirScale = (float) Config.General.DIR_SCALE.getDoubleValue(); //handle direction scale
-        float wpScale = (float) Config.General.WP_SCALE.getDoubleValue(); //handle waypoint scale
+        float dirScale = (float) Config_o.General.DIR_SCALE.getDoubleValue(); //handle direction scale
+        float wpScale = (float) Config_o.General.WP_SCALE.getDoubleValue(); //handle waypoint scale
 
         int sizeDir = (int) (tileSize * dirScale);
         int sizeWp = (int) (tileSize * wpScale);
@@ -139,8 +139,8 @@ public class HudCompass {
         boolean sameYaw = prevYaw == getYaw();
         boolean samePos = Arrays.equals(PlayerTools.getPos(), prevPos);
 
-        ConfigBoolean[] wpShow = Config.Waypoints.SHOW_OPTIONS;
-        ConfigInteger[] wpCoords = Config.Waypoints.COORDS;
+        ConfigBoolean[] wpShow = Config_o.Waypoints.SHOW_OPTIONS;
+        ConfigInteger[] wpCoords = Config_o.Waypoints.COORDS;
 
         if((!sameYaw && shouldDrawDirections() && shouldDrawWaypoints()) || forceUpdateNextFrame) { //update everything
             imgPos = prevImgPos; //copy all previous values
@@ -181,9 +181,9 @@ public class HudCompass {
     }
 
     private static void renderCompass(MatrixStack matrices, int tileSize, int tWidth, int tHeight) {
-        float dirScale = (float) Config.General.DIR_SCALE.getDoubleValue(); //handle direction scale
-        float wpScale = (float) Config.General.WP_SCALE.getDoubleValue(); //handle waypoint scale
-        int yOffset = (Config.General.MINIMALIST_MODE.getBooleanValue()) ? tileSize * 2 : 0; //handle minimalist mode
+        float dirScale = (float) Config_o.General.DIR_SCALE.getDoubleValue(); //handle direction scale
+        float wpScale = (float) Config_o.General.WP_SCALE.getDoubleValue(); //handle waypoint scale
+        int yOffset = (Config_o.General.MINIMALIST_MODE.getBooleanValue()) ? tileSize * 2 : 0; //handle minimalist mode
 
         int tWidthDir = (int) (tWidth * dirScale);
         int tHeightDir = (int) (tHeight * dirScale);
@@ -195,7 +195,7 @@ public class HudCompass {
         int vDir = (int) (yOffset * dirScale);
         int vWp = (int) ((yOffset + tileSize) * wpScale);
 
-        ConfigBoolean[] wpShow = Config.Waypoints.SHOW_OPTIONS;
+        ConfigBoolean[] wpShow = Config_o.Waypoints.SHOW_OPTIONS;
 
         RenderSystem.setShaderTexture(0, SPRITESHEET); //set spritesheet as texture to draw
         if(shouldDrawDirections()) {

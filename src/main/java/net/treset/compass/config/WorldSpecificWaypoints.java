@@ -20,10 +20,10 @@ public class WorldSpecificWaypoints {
         if(playerExists != prevPlayerExists) {
             prevPlayerExists = playerExists;
             if(!playerExists) { //player left world
-                if(!writeWorldWaypoints(Config.Waypoints.ALL_OPTIONS, prevWorldId)) CompassMod.LOGGER.warn("Couldn't save per world waypoints.");
+                if(!writeWorldWaypoints(Config_o.Waypoints.ALL_OPTIONS, prevWorldId)) CompassMod.LOGGER.warn("Couldn't save per world waypoints.");
                 resetGlobalWaypoints();
             } else { //player joined world
-                if(!readWorldWaypoints(Config.Waypoints.ALL_OPTIONS, prevWorldId)) CompassMod.LOGGER.warn("Couldn't load per world waypoints.");
+                if(!readWorldWaypoints(Config_o.Waypoints.ALL_OPTIONS, prevWorldId)) CompassMod.LOGGER.warn("Couldn't load per world waypoints.");
                 HudCompass.forceUpdateNextFrame = true; //force waypoints to display immediately
             }
         }
@@ -65,18 +65,18 @@ public class WorldSpecificWaypoints {
     }
 
     public static void resetGlobalWaypoints() { //set the displayed waypoints to defaults
-        Config.loadFromFile();
+        Config_o.loadFromFile();
 
-        Config.Waypoints.WAYPOINT_A.setBooleanValue(false);
-        Config.Waypoints.WAYPOINT_B.setBooleanValue(false);
-        Config.Waypoints.WAYPOINT_C.setBooleanValue(false);
-        Config.Waypoints.WAYPOINT_D.setBooleanValue(false);
+        Config_o.Waypoints.WAYPOINT_A.setBooleanValue(false);
+        Config_o.Waypoints.WAYPOINT_B.setBooleanValue(false);
+        Config_o.Waypoints.WAYPOINT_C.setBooleanValue(false);
+        Config_o.Waypoints.WAYPOINT_D.setBooleanValue(false);
 
-        ConfigInteger[] coords = Config.Waypoints.COORDS;
+        ConfigInteger[] coords = Config_o.Waypoints.COORDS;
         for (ConfigInteger e : coords) {
             e.setIntegerValue(0);
         }
 
-        Config.saveToFile();
+        Config_o.saveToFile();
     }
 }
