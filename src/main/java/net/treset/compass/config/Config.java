@@ -21,6 +21,8 @@ public class Config {
 
     public static final PageConfig WAYPOINTS_PAGE = new PageConfig("config.compass.waypoints.page");
 
+    public static final KeybindConfig OPEN_CONFIG = new KeybindConfig(new int[]{0x23} /*H*/, 0, 5, "config.compass.open_config.keybind", "config.compass.open_config.keybind.comment");
+
     public static final BooleanConfig WP_A_SHOW = new BooleanConfig(false, "config.compass.waypoints.a.toggle", "config.compass.waypoints.a.toggle.comment");
     public static final IntegerConfig WP_A_X = new IntegerConfig(0, -1000000000, 100000000, "config.compass.waypoints.a.x", "config.compass.waypoints.a.x.comment");
     public static final IntegerConfig WP_A_Z = new IntegerConfig(0, -1000000000, 100000000, "config.compass.waypoints.a.z", "config.compass.waypoints.a.z.comment");
@@ -46,7 +48,8 @@ public class Config {
                 COMPASS_SCALE,
                 DIR_SCALE,
                 WP_SCALE,
-                WAYPOINTS_PAGE
+                WAYPOINTS_PAGE,
+                OPEN_CONFIG
         };
 
         public static final BaseConfig[] WAYPOINTS_PAGE_CONFIGS = new BaseConfig[] {
@@ -72,6 +75,21 @@ public class Config {
                  COMPASS_SCALE,
                  DIR_SCALE,
                  WP_SCALE
+         };
+
+         public static final BaseConfig[] WP_SUB_OPTIONS = new BaseConfig[] {
+                 WP_A_X,
+                 WP_A_Z,
+                 WP_A_SET_TO_PLAYER,
+                 WP_B_X,
+                 WP_B_Z,
+                 WP_B_SET_TO_PLAYER,
+                 WP_C_X,
+                 WP_C_Z,
+                 WP_C_SET_TO_PLAYER,
+                 WP_D_X,
+                 WP_D_Z,
+                 WP_D_SET_TO_PLAYER
          };
 
          public static final BooleanConfig[] WP_SHOW_OPTIONS = new BooleanConfig[] {
@@ -109,12 +127,16 @@ public class Config {
             e.setSlider(true);
         }
 
+        for (BaseConfig e : Lists.WP_SUB_OPTIONS) {
+            e.setDisplayed(false);
+        }
+
         for (BooleanConfig e : Lists.WP_SHOW_OPTIONS) {
             e.onChange(WaypointTools::onChangeWaypointActive);
         }
 
         for (BooleanConfig e : Lists.WP_PLAYER_OPTIONS) {
-            e.onChange(WaypointTools::onSetWaypoitToPlayer);
+            e.onChange(WaypointTools::onSetWaypointToPlayer);
         }
 
         SaveLoadManager.globalSaveConfig(MAIN_PAGE);

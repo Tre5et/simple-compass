@@ -1,16 +1,11 @@
 package net.treset.compass.tools;
 
-import fi.dy.masa.malilib.config.IConfigBase;
 import net.minecraft.client.MinecraftClient;
-import net.treset.compass.CompassClient;
 import net.treset.compass.config.Config;
-import net.treset.compass.config.Config_o;
-import net.treset.compass.hud.HudCompass;
 import net.treset.vanillaconfig.config.BooleanConfig;
 import net.treset.vanillaconfig.config.IntegerConfig;
-
-import java.util.Arrays;
-import java.util.List;
+import net.treset.vanillaconfig.config.base.BaseConfig;
+import net.treset.vanillaconfig.config.config_type.ConfigType;
 
 public class WaypointTools {
 
@@ -18,77 +13,73 @@ public class WaypointTools {
             false, false, false, false
     };
 
-    public static void setWaypointsOptions() {
-        HudCompass.forceUpdateNextFrame = true; //all settings apply instantly
+   public static void onChangeWaypointActive(boolean prevBoolean, String name) {
+        BaseConfig[] options = getAllOptions(name);
 
-        BooleanConfig[] wpShow = Config.Lists.WP_SHOW_OPTIONS;
-
-        for(int i = 0; i <= 3; i ++) {
-            if(wpShow[i].getBoolean() != prevWpShow[i]) { //waypoint option has changed
-                if(prevWpShow[i]) removeWaypointsOption(i); //waypoint toggled on
-                else addWaypointsOption(i); //waypoint toggled off
-                prevWpShow[i] = wpShow[i].getBoolean();
+        for (BaseConfig e : options) {
+            if (e != null) {
+                e.setDisplayed(!prevBoolean);
             }
         }
     }
 
-    public static void addWaypointsOption(int waypointIndex) {
-        IConfigBase[] allOpt = Config_o.Waypoints.ALL_OPTIONS.toArray(new IConfigBase[Config_o.Waypoints.ALL_OPTIONS.size()]);
-
-        List<IConfigBase> relevantOpt = Arrays.asList(
-                allOpt[waypointIndex*4+1], allOpt[waypointIndex*4+2], allOpt[waypointIndex*4+3] //select options to add
-        );
-
-        Config_o.Waypoints.OPTIONS.addAll(Config_o.Waypoints.OPTIONS.indexOf(allOpt[waypointIndex*4]) + 1, relevantOpt); //add options at correct position
-
-        if(CompassClient.configScreen != null) CompassClient.configScreen.reloadEntries(); //refresh to display new options
-    }
-
-    public static void removeWaypointsOption(int waypointIndex) {
-        IConfigBase[] allOpt = Config_o.Waypoints.ALL_OPTIONS.toArray(new IConfigBase[Config_o.Waypoints.ALL_OPTIONS.size()]);
-
-        List<IConfigBase> relevantOpt = Arrays.asList(
-                allOpt[waypointIndex*4+1], allOpt[waypointIndex*4+2], allOpt[waypointIndex*4+3] //select options to remove
-        );
-
-        Config_o.Waypoints.OPTIONS.removeAll(relevantOpt); //remove options by finding them
-
-        if(CompassClient.configScreen != null) CompassClient.configScreen.reloadEntries(); //refresh to hide hidden options
-    }
-
-    public static void setWaypointsToPlayer_o() {
-        MinecraftClient cli = MinecraftClient.getInstance();
-
-        BooleanConfig[] wpToPlayer = Config.Lists.WP_PLAYER_OPTIONS;
-        IntegerConfig[] wpCoords = Config.Lists.WP_COORD_OPTIONS;
-
-        for(int i = 0; i <= 3; i++){
-            if(wpToPlayer[i].getBoolean()) { //is waypoint supposed to be set to player?
-                if(cli.player != null) {
-                    double coordScale = cli.player.clientWorld.getDimension().getCoordinateScale();
-                    double[] pos = PlayerTools.getPos();
-                    wpCoords[i*2].setInteger((int)Math.floor(pos[0] * coordScale)); //set x-value rounded down to match ingame logic
-                    wpCoords[i*2+1].setInteger((int)Math.floor(pos[1] * coordScale)); //set y-value rounded down to match ingame logic
-                }
-                wpToPlayer[i].setBoolean(false); //reset set to player option (so that it always appears false)
-                CompassClient.configScreen.reloadEntries(); //refresh to display new coordinates
-            }
-        }
-    }
-
-    public static void onChangeWaypointActive(boolean prevBoolean, String name) {
-
-    }
-
-    public static void onSetWaypoitToPlayer(boolean prevBoolean, String name) {
+    public static void onSetWaypointToPlayer(boolean prevBoolean, String name) {
         if(!prevBoolean) {
             MinecraftClient cli = MinecraftClient.getInstance();
             if(cli.player != null) {
                 double coordScale = cli.player.clientWorld.getDimension().getCoordinateScale();
                 double[] pos = PlayerTools.getPos();
+                IntegerConfig[] configs = getCoordinateOptions(name);
 
+                try {
+                    configs[0].setInteger((int) Math.floor(pos[0] * coordScale));
+                    configs[1].setInteger((int) Math.floor(pos[1] * coordScale));
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
 
+                for (BooleanConfig e : Config.Lists.WP_PLAYER_OPTIONS) {
+                    if(e.getKey().equals(name)) e.setBoolean(false);
+                }
             }
         }
+    }
+
+    public static BaseConfig[] getWaypointOptions(String name, boolean x, boolean z, boolean setToPlayer) {
+        int maxAmount = (x? 1 : 0) + (z? 1 : 0) + (setToPlayer? 1 : 0);
+
+        BaseConfig[] configs = new BaseConfig[maxAmount];
+
+        for (BaseConfig e : Config.Lists.WP_SUB_OPTIONS) {
+            if(e.getKey().split("\\.")[3].equals(name.split("\\.")[3])) {
+                if(e.getKey().split("\\.")[4].equals("x") && x) {
+                    configs[0] = e;
+                } else if(e.getKey().split("\\.")[4].equals("z") && z) {
+                    configs[x? 1 : 0] = e;
+                } else if(e.getKey().split("\\.")[4].equals("to_player") && setToPlayer) {
+                    configs[maxAmount - 1] = e;
+                }
+            }
+        }
+
+        return configs;
+    }
+
+    public static IntegerConfig[] getCoordinateOptions(String name) {
+        BaseConfig[] configs = getWaypointOptions(name, true, true, false);
+        if(configs.length != 2) return new IntegerConfig[2];
+
+        IntegerConfig[] integerConfigs = new IntegerConfig[2];
+        for (int i = 0; i < 2; i++) {
+            if(configs[i].getType() != ConfigType.INTEGER) return new IntegerConfig[]{null, null};
+            integerConfigs[i] = (IntegerConfig)configs[i];
+        }
+        return integerConfigs;
+    }
+
+    public static BaseConfig[] getAllOptions(String name) {
+        BaseConfig[] configs = getWaypointOptions(name, true, true, true);
+        if(configs.length != 3) return new BaseConfig[3];
+        return configs;
     }
 }
