@@ -1,17 +1,16 @@
 package net.treset.compass.hud;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import fi.dy.masa.malilib.config.options.ConfigBoolean;
-import fi.dy.masa.malilib.config.options.ConfigInteger;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import net.treset.compass.CompassMod;
-import net.treset.compass.config.Config_o;
-import net.treset.compass.config.lists.DisplayMode;
+import net.treset.compass.config.Config;
 import net.treset.compass.tools.PlayerTools;
+import net.treset.vanillaconfig.config.BooleanConfig;
+import net.treset.vanillaconfig.config.IntegerConfig;
 
 import java.util.Arrays;
 
@@ -22,7 +21,7 @@ public class HudCompass {
     private static final MinecraftClient cli = MinecraftClient.getInstance();
     private static Entity cam;
 
-    private static float prevYaw = 0;
+    private static double prevYaw = 0;
     private static double[] prevPos = new double[]{0, 0};
     private static int[] prevImgPos = new int[]{
             0, 0, 0, 0,
@@ -55,10 +54,10 @@ public class HudCompass {
         renderCompass(matrices, tileSize, tWidth, tHeight);
     }
 
-    public static float getYaw() {
-        float yaw;
+    public static double getYaw() {
+        double yaw;
 
-        float headYaw = cam.getYaw();
+        double headYaw = cam.getYaw();
         headYaw %= 360; //rotation {0..360}
         if (headYaw < 0) headYaw += 360; //correct for negative values
 
@@ -67,16 +66,16 @@ public class HudCompass {
         return yaw;
     }
 
-    public static float getPositionByAngle(int width, float angle) {
-        float camYaw = getYaw();
+    public static double getPositionByAngle(int width, double angle) {
+        double camYaw = getYaw();
 
-        float imgPos = 0;
-        float compassScale = (float) Config_o.General.COMPASS_SCALE.getDoubleValue();
+        double imgPos = 0;
+        double compassScale = Config.COMPASS_SCALE.getDouble();
 
-        float imageOffset = (float) (0.5 * width); //offset to account for image with
-        float compassOffset = (float) (0.5 * (compassScale - 1)); //offset to account for compass scale
+        double imageOffset = (float) (0.5 * width); //offset to account for image with
+        double compassOffset = (float) (0.5 * (compassScale - 1)); //offset to account for compass scale
 
-        float windowX = cli.getWindow().getScaledWidth();
+        double windowX = cli.getWindow().getScaledWidth();
 
         camYaw = 1 - camYaw; //invert to line up with rotation direction
         camYaw -= angle; //rotate position to account for angle
@@ -87,8 +86,8 @@ public class HudCompass {
         return imgPos;
     }
 
-    public static float getAngleOfPoint(float targetX, float targetZ) {
-        float angle = 0;
+    public static double getAngleOfPoint(double targetX, double targetZ) {
+        double angle = 0;
 
         double[] pos = PlayerTools.getPos();
 
@@ -106,32 +105,29 @@ public class HudCompass {
 
         double relAngle = Math.atan2(distX, distZ) / (0.5 * Math.PI) / 4; //angle in one quadrant
 
-        if (targetX < posX && targetZ < posZ) angle = (float) (relAngle + 0); //quadrant N - W
-        else if (targetX < posX && targetZ > posZ) angle = (float) (0.25 - relAngle + 0.25f); //quadrant W - S
-        else if (targetX > posX && targetZ > posZ) angle = (float) (relAngle + 0.5f); //quadrant S - E
-        else if (targetX > posX && targetZ < posZ) angle = (float) (0.25 - relAngle + 0.75f); //quadrant E - N
+        if (targetX < posX && targetZ < posZ) angle = (relAngle + 0); //quadrant N - W
+        else if (targetX < posX && targetZ > posZ) angle = (0.25 - relAngle + 0.25f); //quadrant W - S
+        else if (targetX > posX && targetZ > posZ) angle = (relAngle + 0.5f); //quadrant S - E
+        else if (targetX > posX && targetZ < posZ) angle = (0.25 - relAngle + 0.75f); //quadrant E - N
 
         return angle;
     }
 
     private static boolean shouldDrawDirections() {
-        if (!Config_o.General.DIR_DISPLAY_MODE.getOptionListValue().equals(DisplayMode.NEVER) &&
+        return !Config.DIR_DISPLAY_MODE.getOption().equals("config.compass.display_mode.list.never") &&
                 cam != null &&
-                !(Config_o.General.DIR_DISPLAY_MODE.getOptionListValue().equals(DisplayMode.WHEN_HOLDING_COMPASS) && !PlayerTools.isHoldingCompass()))
-            return true;
-        return false;
+                !(Config.DIR_DISPLAY_MODE.getOption().equals("config.compass.display_mode.list.compass") && !PlayerTools.isHoldingCompass());
     }
 
     private static boolean shouldDrawWaypoints() {
-        if (!Config_o.General.WP_DISPLAY_MODE.getOptionListValue().equals(DisplayMode.NEVER) &&
-                !(Config_o.General.WP_DISPLAY_MODE.getOptionListValue().equals(DisplayMode.WHEN_HOLDING_COMPASS) && !PlayerTools.isHoldingCompass()))
-            return true;
-        return false;
+        return !Config.WP_DISPLAY_MODE.getOption().equals("config.compass.display_mode.list.never") &&
+                cam != null &&
+                !(Config.DIR_DISPLAY_MODE.getOption().equals("config.compass.display_mode.list.compass") && !PlayerTools.isHoldingCompass());
     }
 
     private static void updatePositions(int tileSize) {
-        float dirScale = (float) Config_o.General.DIR_SCALE.getDoubleValue(); //handle direction scale
-        float wpScale = (float) Config_o.General.WP_SCALE.getDoubleValue(); //handle waypoint scale
+        float dirScale = (float) Config.DIR_SCALE.getDouble(); //handle direction scale
+        float wpScale = (float) Config.WP_SCALE.getDouble(); //handle waypoint scale
 
         int sizeDir = (int) (tileSize * dirScale);
         int sizeWp = (int) (tileSize * wpScale);
@@ -139,16 +135,16 @@ public class HudCompass {
         boolean sameYaw = prevYaw == getYaw();
         boolean samePos = Arrays.equals(PlayerTools.getPos(), prevPos);
 
-        ConfigBoolean[] wpShow = Config_o.Waypoints.SHOW_OPTIONS;
-        ConfigInteger[] wpCoords = Config_o.Waypoints.COORDS;
+        BooleanConfig[] wpShow = Config.Lists.WP_SHOW_OPTIONS;
+        IntegerConfig[] wpCoords = Config.Lists.WP_COORD_OPTIONS;
 
         if((!sameYaw && shouldDrawDirections() && shouldDrawWaypoints()) || forceUpdateNextFrame) { //update everything
             imgPos = prevImgPos; //copy all previous values
 
             for (int i = 0; i < 4; i++) {
                 imgPos[i] = (int) getPositionByAngle(sizeDir, (float) i / 4); //override direction values
-                if (wpShow[i].getBooleanValue())
-                    imgPos[i + 4] = (int) getPositionByAngle(sizeWp, getAngleOfPoint(wpCoords[i * 2].getIntegerValue(), wpCoords[i * 2 + 1].getIntegerValue())); //override waypoint values
+                if (wpShow[i].getBoolean())
+                    imgPos[i + 4] = (int) getPositionByAngle(sizeWp, getAngleOfPoint(wpCoords[i * 2].getInteger(), wpCoords[i * 2 + 1].getInteger())); //override waypoint values
             }
 
             prevImgPos = imgPos; //copy all values into previous values
@@ -170,7 +166,7 @@ public class HudCompass {
             imgPos = prevImgPos; //copy all previous values
 
             for(int i = 0; i < 4; i++) {
-                if(wpShow[i].getBooleanValue()) imgPos[i + 4] = (int)getPositionByAngle(sizeWp, getAngleOfPoint(wpCoords[i*2].getIntegerValue(), wpCoords[i * 2 + 1].getIntegerValue())); //override waypoint values
+                if(wpShow[i].getBoolean()) imgPos[i + 4] = (int)getPositionByAngle(sizeWp, getAngleOfPoint(wpCoords[i*2].getInteger(), wpCoords[i * 2 + 1].getInteger())); //override waypoint values
             }
 
             prevImgPos = imgPos; //copy all values into previous values
@@ -181,9 +177,9 @@ public class HudCompass {
     }
 
     private static void renderCompass(MatrixStack matrices, int tileSize, int tWidth, int tHeight) {
-        float dirScale = (float) Config_o.General.DIR_SCALE.getDoubleValue(); //handle direction scale
-        float wpScale = (float) Config_o.General.WP_SCALE.getDoubleValue(); //handle waypoint scale
-        int yOffset = (Config_o.General.MINIMALIST_MODE.getBooleanValue()) ? tileSize * 2 : 0; //handle minimalist mode
+        double dirScale = Config.DIR_SCALE.getDouble(); //handle direction scale
+        double wpScale = Config.WP_SCALE.getDouble(); //handle waypoint scale
+        int yOffset = (Config.MINIMALIST_MODE.getBoolean()) ? tileSize * 2 : 0; //handle minimalist mode
 
         int tWidthDir = (int) (tWidth * dirScale);
         int tHeightDir = (int) (tHeight * dirScale);
@@ -195,7 +191,7 @@ public class HudCompass {
         int vDir = (int) (yOffset * dirScale);
         int vWp = (int) ((yOffset + tileSize) * wpScale);
 
-        ConfigBoolean[] wpShow = Config_o.Waypoints.SHOW_OPTIONS;
+        BooleanConfig[] wpShow = Config.Lists.WP_SHOW_OPTIONS;
 
         RenderSystem.setShaderTexture(0, SPRITESHEET); //set spritesheet as texture to draw
         if(shouldDrawDirections()) {
@@ -205,7 +201,7 @@ public class HudCompass {
         }
         if(shouldDrawWaypoints()) {
             for (int i = 3; i >= 0; i--) { //render waypoints a last for top layer
-                if (wpShow[i].getBooleanValue())
+                if (wpShow[i].getBoolean())
                     DrawableHelper.drawTexture(matrices, imgPos[i + 4], 5, i * sizeWp, vWp, sizeWp, sizeWp, tWidthWp, tHeightWp); //draw waypoint sprites
             }
         }
