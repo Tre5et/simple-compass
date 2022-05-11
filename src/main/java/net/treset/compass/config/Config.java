@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Config {
     public static final PageConfig MAIN_PAGE = new PageConfig("config.compass.main.page");
@@ -165,6 +167,7 @@ public class Config {
         if(!MAIN_PAGE.hasVersion()) {
             migrateFromMalilib();
         }
+        checkMigrateWorldConfig();
         MAIN_PAGE.setVersion(new ConfigVersion("1.0.0"));
 
         SaveLoadManager.globalSaveConfig(MAIN_PAGE);
@@ -201,6 +204,9 @@ public class Config {
         MAIN_PAGE.migrateFileFrom("compass.json");
 
         loadOpenHotkey();
+
+
+        WAYPOINTS_PAGE.migrateFileFrom("compass.json");
     }
 
     public static String getNewDisplayMode(String oldString) {
@@ -257,6 +263,25 @@ public class Config {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void checkMigrateWorldConfig() {
+        File dir = new File("./config/compass");
+        if(!dir.isDirectory()) return;
+        List<String> list = new ArrayList<>(List.of(dir.list()));
+        list.remove("waypoints");
+        list.remove("waypoints.json");
+        list.remove("compass.json");
+        if(list.size() == 0) return;
+
+        for(BooleanConfig e : Lists.WP_SHOW_OPTIONS) {
+            e.migrateFrom("/Show Waypoint " + e.getKey().split("\\.")[3].toUpperCase()
+                    + (e.getKey().split("\\.")[3].equals("a")? "              " : ""));
+        }
+        for(IntegerConfig e : Lists.WP_COORD_OPTIONS) {
+            e.migrateFrom("/ -  Waypoint " + e.getKey().split("\\.")[3].toUpperCase() + " " + e.getKey().split("\\.")[4].toUpperCase() + "-Coordinate");
+        }
+        WAYPOINTS_PAGE.migrateFileFrom("compass.json");
     }
 
 }
