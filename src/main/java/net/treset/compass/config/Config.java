@@ -1,6 +1,9 @@
 package net.treset.compass.config;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.InputUtil;
 import net.treset.compass.CompassClient;
 import net.treset.compass.tools.KeybindTools;
 import net.treset.compass.tools.WaypointTools;
@@ -8,7 +11,16 @@ import net.treset.vanillaconfig.config.*;
 import net.treset.vanillaconfig.config.base.BaseConfig;
 import net.treset.vanillaconfig.config.base.SlideableConfig;
 import net.treset.vanillaconfig.config.managers.SaveLoadManager;
+import net.treset.vanillaconfig.config.version.ConfigVersion;
 import net.treset.vanillaconfig.screen.ConfigScreen;
+import net.treset.vanillaconfig.tools.FileTools;
+import org.lwjgl.glfw.GLFW;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 public class Config {
     public static final PageConfig MAIN_PAGE = new PageConfig("config.compass.main.page");
@@ -149,9 +161,102 @@ public class Config {
 
         OPEN_CONFIG.onPressed(KeybindTools::openConfig);
 
+        MAIN_PAGE.loadVersion();
+        if(!MAIN_PAGE.hasVersion()) {
+            migrateFromMalilib();
+        }
+        MAIN_PAGE.setVersion(new ConfigVersion("1.0.0"));
+
         SaveLoadManager.globalSaveConfig(MAIN_PAGE);
         SaveLoadManager.worldSaveConfig(WAYPOINTS_PAGE);
 
         CompassClient.CONFIG_SCREEN = new ConfigScreen(MAIN_PAGE, MinecraftClient.getInstance().currentScreen);
     }
+
+    public static void migrateFromMalilib() {
+        if(!FileTools.fileExists(new File("./config/compass.json"))) return;
+
+        JsonObject obj;
+        if((obj = FileTools.readJsonFile(new File("./config/compass.json"))) == null || !obj.isJsonObject()) return;
+
+        JsonObject genPage;
+        if((genPage = obj.getAsJsonObject("General")) == null || !genPage.isJsonObject()) return;
+
+        JsonPrimitive dirDisplayMode;
+        if((dirDisplayMode = genPage.getAsJsonPrimitive("Direction Display Mode")) == null || !dirDisplayMode.isJsonPrimitive() || !dirDisplayMode.isString()) return;
+        String newString;
+        if((newString = getNewDisplayMode(dirDisplayMode.getAsString())) == null) return;
+        DIR_DISPLAY_MODE.setOption(newString);
+
+        JsonPrimitive wpDisplayMode;
+        if((wpDisplayMode = genPage.getAsJsonPrimitive("Waypoint Display Mode")) == null || !wpDisplayMode.isJsonPrimitive() || !wpDisplayMode.isString()) return;
+        if((newString = getNewDisplayMode(wpDisplayMode.getAsString())) == null) return;
+        WP_DISPLAY_MODE.setOption(newString);
+
+        MINIMALIST_MODE.migrateFrom("General/Minimalist Mode");
+        COMPASS_SCALE.migrateFrom("General/Compass Scale");
+        DIR_SCALE.migrateFrom("General/Direction Size");
+        WP_SCALE.migrateFrom("General/Waypoint Size");
+
+        MAIN_PAGE.migrateFileFrom("compass.json");
+
+        loadOpenHotkey();
+    }
+
+    public static String getNewDisplayMode(String oldString) {
+        switch (oldString) {
+            case "always" -> { return "config.compass.display_mode.list.always"; }
+            case "when_holding_compass" -> { return "config.compass.display_mode.list.compass"; }
+            case "never" -> { return "config.compass.display_mode.list.never"; }
+            default -> { return null; }
+        }
+    }
+
+    public static void loadOpenHotkey() {
+        if(!GLFW.glfwInit()) return;
+
+        File optionsFile = new File("./options.txt"); //migrate keybinding
+        if(optionsFile.exists() && optionsFile.isFile() && optionsFile.canRead()) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(optionsFile), StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    if(line.startsWith("key_key.compass.config_gui:")) {
+                        String keyName;
+                        try {
+                            keyName = line.substring(27);
+                        } catch (IndexOutOfBoundsException e) {
+                            return;
+                        }
+
+                        if(keyName.isEmpty()) return;
+                        InputUtil.Key key;
+                        try {
+                            key = InputUtil.fromTranslationKey(keyName);
+                        } catch(IllegalArgumentException e) {
+                            return;
+                        }
+                        if(key == null) return;
+
+                        int keyCode = key.getCode();
+                        int scanCode = -1;
+                        try {
+                            scanCode = GLFW.glfwGetKeyScancode(keyCode);
+                        } catch (IllegalStateException e) {
+                            return;
+                        }
+
+                        if(scanCode <= 0) return;
+
+                        OPEN_CONFIG.setKeys(new int[]{scanCode});
+
+                        break;
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
