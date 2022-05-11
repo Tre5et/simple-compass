@@ -2,6 +2,7 @@ package net.treset.compass.tools;
 
 import fi.dy.masa.malilib.gui.GuiBase;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.treset.compass.CompassClient;
@@ -25,5 +26,10 @@ public class KeybindTools {
             CompassClient.configScreen = new ConfigGui(); //open config screen
             GuiBase.openGui(CompassClient.configScreen);
         }
+    }
+
+    public static void openConfig(String name) {
+        if(MinecraftClient.getInstance().player == null) return;
+        MinecraftClient.getInstance().setScreen(CompassClient.CONFIG_SCREEN);
     }
 }

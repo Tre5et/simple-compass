@@ -2,6 +2,7 @@ package net.treset.compass.config;
 
 import net.minecraft.client.MinecraftClient;
 import net.treset.compass.CompassClient;
+import net.treset.compass.tools.KeybindTools;
 import net.treset.compass.tools.WaypointTools;
 import net.treset.vanillaconfig.config.*;
 import net.treset.vanillaconfig.config.base.BaseConfig;
@@ -26,19 +27,19 @@ public class Config {
     public static final BooleanConfig WP_A_SHOW = new BooleanConfig(false, "config.compass.waypoints.a.toggle", "config.compass.waypoints.a.toggle.comment");
     public static final IntegerConfig WP_A_X = new IntegerConfig(0, -1000000000, 100000000, "config.compass.waypoints.a.x", "config.compass.waypoints.a.x.comment");
     public static final IntegerConfig WP_A_Z = new IntegerConfig(0, -1000000000, 100000000, "config.compass.waypoints.a.z", "config.compass.waypoints.a.z.comment");
-    public static final BooleanConfig WP_A_SET_TO_PLAYER = new BooleanConfig(false, "config.compass.waypoints.a.to_player", "config.compass.waypoints.a.to_player.comment");
+    public static final ButtonConfig WP_A_SET_TO_PLAYER = new ButtonConfig("config.compass.waypoints.a.to_player", "config.compass.waypoints.a.to_player.comment");
     public static final BooleanConfig WP_B_SHOW = new BooleanConfig(false, "config.compass.waypoints.b.toggle", "config.compass.waypoints.b.toggle.comment");
     public static final IntegerConfig WP_B_X = new IntegerConfig(0, -1000000000, 100000000, "config.compass.waypoints.b.x", "config.compass.waypoints.b.x.comment");
     public static final IntegerConfig WP_B_Z = new IntegerConfig(0, -1000000000, 100000000, "config.compass.waypoints.b.z", "config.compass.waypoints.b.z.comment");
-    public static final BooleanConfig WP_B_SET_TO_PLAYER = new BooleanConfig(false, "config.compass.waypoints.b.to_player", "config.compass.waypoints.b.to_player.comment");
+    public static final ButtonConfig WP_B_SET_TO_PLAYER = new ButtonConfig("config.compass.waypoints.b.to_player", "config.compass.waypoints.b.to_player.comment");
     public static final BooleanConfig WP_C_SHOW = new BooleanConfig(false, "config.compass.waypoints.c.toggle", "config.compass.waypoints.c.toggle.comment");
     public static final IntegerConfig WP_C_X = new IntegerConfig(0, -1000000000, 100000000, "config.compass.waypoints.c.x", "config.compass.waypoints.c.x.comment");
     public static final IntegerConfig WP_C_Z = new IntegerConfig(0, -1000000000, 100000000, "config.compass.waypoints.c.z", "config.compass.waypoints.c.z.comment");
-    public static final BooleanConfig WP_C_SET_TO_PLAYER = new BooleanConfig(false, "config.compass.waypoints.c.to_player", "config.compass.waypoints.c.to_player.comment");
+    public static final ButtonConfig WP_C_SET_TO_PLAYER = new ButtonConfig( "config.compass.waypoints.c.to_player", "config.compass.waypoints.c.to_player.comment");
     public static final BooleanConfig WP_D_SHOW = new BooleanConfig(false, "config.compass.waypoints.d.toggle", "config.compass.waypoints.d.toggle.comment");
     public static final IntegerConfig WP_D_X = new IntegerConfig(0, -1000000000, 100000000, "config.compass.waypoints.d.x", "config.compass.waypoints.d.x.comment");
     public static final IntegerConfig WP_D_Z = new IntegerConfig(0, -1000000000, 100000000, "config.compass.waypoints.d.z", "config.compass.waypoints.d.z.comment");
-    public static final BooleanConfig WP_D_SET_TO_PLAYER = new BooleanConfig(false, "config.compass.waypoints.d.to_player", "config.compass.waypoints.d.to_player.comment");
+    public static final ButtonConfig WP_D_SET_TO_PLAYER = new ButtonConfig("config.compass.waypoints.d.to_player", "config.compass.waypoints.d.to_player.comment");
 
     public static class Lists {
         public static final BaseConfig[] MAIN_PAGE_CONFIGS = new BaseConfig[] {
@@ -106,7 +107,7 @@ public class Config {
                  WP_D_X, WP_D_Z
          };
 
-         public static final BooleanConfig[] WP_PLAYER_OPTIONS = new BooleanConfig[] {
+         public static final ButtonConfig[] WP_PLAYER_OPTIONS = new ButtonConfig[] {
                  WP_A_SET_TO_PLAYER,
                  WP_B_SET_TO_PLAYER,
                  WP_C_SET_TO_PLAYER,
@@ -123,21 +124,30 @@ public class Config {
         WAYPOINTS_PAGE.setSaveName("waypoints");
         WAYPOINTS_PAGE.setPath("compass");
 
-        for (SlideableConfig e : Lists.SLIDER_CONFIGS) {
+        for(SlideableConfig e : Lists.SLIDER_CONFIGS) {
             e.setSlider(true);
         }
 
-        for (BaseConfig e : Lists.WP_SUB_OPTIONS) {
+        for(BaseConfig e : Lists.WP_SUB_OPTIONS) {
             e.setDisplayed(false);
+            e.setCustomWidth(290, 140);
         }
 
-        for (BooleanConfig e : Lists.WP_SHOW_OPTIONS) {
+        for(BooleanConfig e : Lists.WP_SHOW_OPTIONS) {
             e.onChange(WaypointTools::onChangeWaypointActive);
         }
 
-        for (BooleanConfig e : Lists.WP_PLAYER_OPTIONS) {
-            e.onChange(WaypointTools::onSetWaypointToPlayer);
+        for(IntegerConfig e : Lists.WP_COORD_OPTIONS) {
+            e.setFullWidth(false);
+            e.onChange(WaypointTools::onChangeWaypoint);
         }
+
+        for(ButtonConfig e : Lists.WP_PLAYER_OPTIONS) {
+            e.onClickL(WaypointTools::onSetWaypointToPlayer);
+            e.onClickR(WaypointTools::onSetWaypointToPlayer);
+        }
+
+        OPEN_CONFIG.onPressed(KeybindTools::openConfig);
 
         SaveLoadManager.globalSaveConfig(MAIN_PAGE);
         SaveLoadManager.worldSaveConfig(WAYPOINTS_PAGE);

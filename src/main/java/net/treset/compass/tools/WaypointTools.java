@@ -2,7 +2,7 @@ package net.treset.compass.tools;
 
 import net.minecraft.client.MinecraftClient;
 import net.treset.compass.config.Config;
-import net.treset.vanillaconfig.config.BooleanConfig;
+import net.treset.compass.hud.HudCompass;
 import net.treset.vanillaconfig.config.IntegerConfig;
 import net.treset.vanillaconfig.config.base.BaseConfig;
 import net.treset.vanillaconfig.config.config_type.ConfigType;
@@ -21,28 +21,28 @@ public class WaypointTools {
                 e.setDisplayed(!prevBoolean);
             }
         }
+
+       HudCompass.forceUpdateNextFrame = true;
     }
 
-    public static void onSetWaypointToPlayer(boolean prevBoolean, String name) {
-        if(!prevBoolean) {
-            MinecraftClient cli = MinecraftClient.getInstance();
-            if(cli.player != null) {
-                double coordScale = cli.player.clientWorld.getDimension().getCoordinateScale();
-                double[] pos = PlayerTools.getPos();
-                IntegerConfig[] configs = getCoordinateOptions(name);
+    public static void onSetWaypointToPlayer(String name) {
+        MinecraftClient cli = MinecraftClient.getInstance();
+        if(cli.player != null) {
+            double coordScale = cli.player.clientWorld.getDimension().getCoordinateScale();
+            double[] pos = PlayerTools.getPos();
+            IntegerConfig[] configs = getCoordinateOptions(name);
 
-                try {
-                    configs[0].setInteger((int) Math.floor(pos[0] * coordScale));
-                    configs[1].setInteger((int) Math.floor(pos[1] * coordScale));
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
-
-                for (BooleanConfig e : Config.Lists.WP_PLAYER_OPTIONS) {
-                    if(e.getKey().equals(name)) e.setBoolean(false);
-                }
+            try {
+                configs[0].setInteger((int) Math.floor(pos[0] * coordScale));
+                configs[1].setInteger((int) Math.floor(pos[1] * coordScale));
+            } catch (NullPointerException e) {
+                e.printStackTrace();
             }
         }
+    }
+
+    public static void onChangeWaypoint(int prevInt, String name) {
+       HudCompass.forceUpdateNextFrame = true;
     }
 
     public static BaseConfig[] getWaypointOptions(String name, boolean x, boolean z, boolean setToPlayer) {

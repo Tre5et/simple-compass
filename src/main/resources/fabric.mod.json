@@ -36,11 +36,10 @@
   "depends": {
     "fabricloader": ">=0.11.3",
     "fabric": "*",
+    "vanillaconfig": ">=1.2.0",
     "minecraft": "1.18.x",
     "java": ">=17"
   },
   "suggests": {
-    "fabric-api": "Fabric API",
-    "malilib": "MaLiLib"
   }
 }
