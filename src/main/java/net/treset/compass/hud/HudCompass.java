@@ -122,7 +122,7 @@ public class HudCompass {
     private static boolean shouldDrawWaypoints() {
         return !Config.WP_DISPLAY_MODE.getOption().equals("config.compass.display_mode.list.never") &&
                 cam != null &&
-                !(Config.DIR_DISPLAY_MODE.getOption().equals("config.compass.display_mode.list.compass") && !PlayerTools.isHoldingCompass());
+                !(Config.WP_DISPLAY_MODE.getOption().equals("config.compass.display_mode.list.compass") && !PlayerTools.isHoldingCompass());
     }
 
     private static void updatePositions(int tileSize) {
