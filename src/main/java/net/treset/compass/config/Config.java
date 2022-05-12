@@ -270,7 +270,6 @@ public class Config {
         if(!dir.isDirectory()) return;
         List<String> list = new ArrayList<>(List.of(dir.list()));
         list.remove("waypoints");
-        list.remove("waypoints.json");
         list.remove("compass.json");
         if(list.size() == 0) return;
 
