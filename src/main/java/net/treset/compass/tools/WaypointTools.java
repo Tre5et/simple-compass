@@ -9,10 +9,6 @@ import net.treset.vanillaconfig.config.config_type.ConfigType;
 
 public class WaypointTools {
 
-    private static final boolean[] prevWpShow = new boolean[] {
-            false, false, false, false
-    };
-
    public static void onChangeWaypointActive(boolean prevBoolean, String name) {
         BaseConfig[] options = getAllOptions(name);
 

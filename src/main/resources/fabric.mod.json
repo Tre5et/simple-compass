@@ -35,7 +35,6 @@
 
   "depends": {
     "fabricloader": ">=0.11.3",
-    "fabric": "*",
     "vanillaconfig": ">=1.2.1",
     "minecraft": "1.18.x",
     "java": ">=17"

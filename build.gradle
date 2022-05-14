@@ -39,8 +39,6 @@ dependencies {
 
 	modImplementation "net.treset:vanillaconfig:${project.vanillaconfig_version}"
 
-	modImplementation "fi.dy.masa.malilib:malilib-fabric-${project.minecraft_version_out}:${project.malilib_version}"
-
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
 }
