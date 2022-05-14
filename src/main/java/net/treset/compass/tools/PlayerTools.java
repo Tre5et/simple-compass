@@ -8,10 +8,6 @@ import net.minecraft.item.Items;
 
 public class PlayerTools {
 
-    public static boolean doesPlayerExist() {
-        return MinecraftClient.getInstance().player != null;
-    }
-
     public static double[] getPos() {
         double[] pos = new double[2];
 
@@ -24,12 +20,34 @@ public class PlayerTools {
     }
 
     public static boolean isHoldingCompass() {
-        if(!doesPlayerExist()) return false;
         PlayerEntity player = MinecraftClient.getInstance().player;
+        if(MinecraftClient.getInstance().player == null) return false;
+
         ItemStack handStack = player.getMainHandStack();
         ItemStack offHandStack = player.getOffHandStack();
 
         return ItemStack.areItemsEqualIgnoreDamage(new ItemStack(Items.COMPASS), handStack) ||
                 ItemStack.areItemsEqualIgnoreDamage(new ItemStack(Items.COMPASS), offHandStack);
+    }
+
+    public static boolean hasCompassInHotbar() {
+        PlayerEntity player = MinecraftClient.getInstance().player;
+        if(MinecraftClient.getInstance().player == null) return false;
+
+        for(int i = 0; i < 9; i++) {
+            if(ItemStack.areItemsEqualIgnoreDamage(new ItemStack(Items.COMPASS), player.getInventory().getStack(i))) {
+                return true;
+            }
+        }
+
+        return ItemStack.areItemsEqualIgnoreDamage(new ItemStack(Items.COMPASS), player.getOffHandStack());
+    }
+
+    public static boolean hasCompassInInventory() {
+        PlayerEntity player = MinecraftClient.getInstance().player;
+        if(MinecraftClient.getInstance().player == null) return false;
+
+        return player.getInventory().getSlotWithStack(new ItemStack(Items.COMPASS)) >= 0
+                || ItemStack.areItemsEqualIgnoreDamage(new ItemStack(Items.COMPASS), player.getOffHandStack());
     }
 }

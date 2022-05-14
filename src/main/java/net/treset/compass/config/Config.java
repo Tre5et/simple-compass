@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Config {
     public static final PageConfig MAIN_PAGE = new PageConfig("config.compass.main.page");
@@ -31,8 +32,8 @@ public class Config {
     public static final ListConfig WP_DISPLAY_MODE = new ListConfig(ConfigLists.displayMode, 0, "config.compass.wp_display_mode.list", ConfigLists.wpDisplayModeComments);
     public static final BooleanConfig MINIMALIST_MODE = new BooleanConfig(false, "config.compass.minimalist.toggle", "config.compass.minimalist.toggle.comment");
     public static final DoubleConfig COMPASS_SCALE = new DoubleConfig(2, 1, 15, "config.compass.scale.double", "config.compass.scale.double.comment");
-    public static final DoubleConfig DIR_SCALE = new DoubleConfig(1, 0.1, 10, "config.compass.dir_scale.double", "config.compass.dir_scale.double.comment");
-    public static final DoubleConfig WP_SCALE = new DoubleConfig(1, 0.1, 10, "config.compass.wp_scale.double", "config.compass.wp_scale.double.comment");
+    public static final DoubleConfig DIR_SIZE = new DoubleConfig(1, 0.1, 10, "config.compass.dir_scale.double", "config.compass.dir_scale.double.comment");
+    public static final DoubleConfig WP_SIZE = new DoubleConfig(1, 0.1, 10, "config.compass.wp_scale.double", "config.compass.wp_scale.double.comment");
 
     public static final PageConfig WAYPOINTS_PAGE = new PageConfig("config.compass.waypoints.page");
 
@@ -61,10 +62,15 @@ public class Config {
                 WP_DISPLAY_MODE,
                 MINIMALIST_MODE,
                 COMPASS_SCALE,
-                DIR_SCALE,
-                WP_SCALE,
+                DIR_SIZE,
+                WP_SIZE,
                 WAYPOINTS_PAGE,
                 OPEN_CONFIG
+        };
+
+        public static final BaseConfig[] SIZE_OPTIONS = new BaseConfig[] {
+                DIR_SIZE,
+                WP_SIZE
         };
 
         public static final BaseConfig[] WAYPOINTS_PAGE_CONFIGS = new BaseConfig[] {
@@ -88,8 +94,8 @@ public class Config {
 
          public static final SlideableConfig[] SLIDER_CONFIGS = new SlideableConfig[] {
                  COMPASS_SCALE,
-                 DIR_SCALE,
-                 WP_SCALE
+                 DIR_SIZE,
+                 WP_SIZE
          };
 
          public static final BaseConfig[] WP_SUB_OPTIONS = new BaseConfig[] {
@@ -133,6 +139,10 @@ public class Config {
         MAIN_PAGE.setOptions(Lists.MAIN_PAGE_CONFIGS);
         MAIN_PAGE.setSaveName("compass");
         MAIN_PAGE.setPath("compass");
+
+        for(BaseConfig e : Lists.SIZE_OPTIONS) {
+            e.setFullWidth(false);
+        }
 
         WAYPOINTS_PAGE.setOptions(Lists.WAYPOINTS_PAGE_CONFIGS);
         WAYPOINTS_PAGE.setSaveName("waypoints");
@@ -198,8 +208,8 @@ public class Config {
 
         MINIMALIST_MODE.migrateFrom("General/Minimalist Mode");
         COMPASS_SCALE.migrateFrom("General/Compass Scale");
-        DIR_SCALE.migrateFrom("General/Direction Size");
-        WP_SCALE.migrateFrom("General/Waypoint Size");
+        DIR_SIZE.migrateFrom("General/Direction Size");
+        WP_SIZE.migrateFrom("General/Waypoint Size");
 
         MAIN_PAGE.migrateFileFrom("compass.json");
 
@@ -212,7 +222,7 @@ public class Config {
     public static String getNewDisplayMode(String oldString) {
         switch (oldString) {
             case "always" -> { return "config.compass.display_mode.list.always"; }
-            case "when_holding_compass" -> { return "config.compass.display_mode.list.compass"; }
+            case "when_holding_compass" -> { return "config.compass.display_mode.list.hand"; }
             case "never" -> { return "config.compass.display_mode.list.never"; }
             default -> { return null; }
         }
@@ -244,7 +254,7 @@ public class Config {
                         if(key == null) return;
 
                         int keyCode = key.getCode();
-                        int scanCode = -1;
+                        int scanCode;
                         try {
                             scanCode = GLFW.glfwGetKeyScancode(keyCode);
                         } catch (IllegalStateException e) {
@@ -268,7 +278,7 @@ public class Config {
     public static void checkMigrateWorldConfig() {
         File dir = new File("./config/compass");
         if(!dir.isDirectory()) return;
-        List<String> list = new ArrayList<>(List.of(dir.list()));
+        List<String> list = new ArrayList<>(List.of(Objects.requireNonNull(dir.list())));
         list.remove("waypoints");
         list.remove("compass.json");
         if(list.size() == 0) return;

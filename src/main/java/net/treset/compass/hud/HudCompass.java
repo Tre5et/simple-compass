@@ -69,7 +69,7 @@ public class HudCompass {
     public static double getPositionByAngle(int width, double angle) {
         double camYaw = getYaw();
 
-        double imgPos = 0;
+        double imgPos;
         double compassScale = Config.COMPASS_SCALE.getDouble();
 
         double imageOffset = (float) (0.5 * width); //offset to account for image with
@@ -114,20 +114,32 @@ public class HudCompass {
     }
 
     private static boolean shouldDrawDirections() {
-        return !Config.DIR_DISPLAY_MODE.getOption().equals("config.compass.display_mode.list.never") &&
-                cam != null &&
-                !(Config.DIR_DISPLAY_MODE.getOption().equals("config.compass.display_mode.list.compass") && !PlayerTools.isHoldingCompass());
+        if(cam == null) return false;
+        switch(Config.DIR_DISPLAY_MODE.getOption()) {
+            case "config.compass.display_mode.list.always" -> { return true; }
+            case "config.compass.display_mode.list.hand" -> { return PlayerTools.isHoldingCompass(); }
+            case "config.compass.display_mode.list.hotbar" -> { return PlayerTools.hasCompassInHotbar(); }
+            case "config.compass.display_mode.list.inventory" -> { return PlayerTools.hasCompassInInventory(); }
+            case "config.compass.display_mode.list.never" -> { return false; }
+            default -> { return false; }
+        }
     }
 
     private static boolean shouldDrawWaypoints() {
-        return !Config.WP_DISPLAY_MODE.getOption().equals("config.compass.display_mode.list.never") &&
-                cam != null &&
-                !(Config.WP_DISPLAY_MODE.getOption().equals("config.compass.display_mode.list.compass") && !PlayerTools.isHoldingCompass());
+        if(cam == null) return false;
+        switch(Config.WP_DISPLAY_MODE.getOption()) {
+            case "config.compass.display_mode.list.always" -> { return true; }
+            case "config.compass.display_mode.list.hand" -> { return PlayerTools.isHoldingCompass(); }
+            case "config.compass.display_mode.list.hotbar" -> { return PlayerTools.hasCompassInHotbar(); }
+            case "config.compass.display_mode.list.inventory" -> { return PlayerTools.hasCompassInInventory(); }
+            case "config.compass.display_mode.list.never" -> { return false; }
+            default -> { return false; }
+        }
     }
 
     private static void updatePositions(int tileSize) {
-        float dirScale = (float) Config.DIR_SCALE.getDouble(); //handle direction scale
-        float wpScale = (float) Config.WP_SCALE.getDouble(); //handle waypoint scale
+        float dirScale = (float) Config.DIR_SIZE.getDouble(); //handle direction scale
+        float wpScale = (float) Config.WP_SIZE.getDouble(); //handle waypoint scale
 
         int sizeDir = (int) (tileSize * dirScale);
         int sizeWp = (int) (tileSize * wpScale);
@@ -177,8 +189,8 @@ public class HudCompass {
     }
 
     private static void renderCompass(MatrixStack matrices, int tileSize, int tWidth, int tHeight) {
-        double dirScale = Config.DIR_SCALE.getDouble(); //handle direction scale
-        double wpScale = Config.WP_SCALE.getDouble(); //handle waypoint scale
+        double dirScale = Config.DIR_SIZE.getDouble(); //handle direction scale
+        double wpScale = Config.WP_SIZE.getDouble(); //handle waypoint scale
         int yOffset = (Config.MINIMALIST_MODE.getBoolean()) ? tileSize * 2 : 0; //handle minimalist mode
 
         int tWidthDir = (int) (tWidth * dirScale);
