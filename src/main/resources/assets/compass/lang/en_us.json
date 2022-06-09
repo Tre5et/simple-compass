@@ -19,7 +19,7 @@
   "config.compass.wp_display_mode.list.never.comment": "Waypoints will never be displayed.",
   "config.compass.minimalist.toggle": "Minimalist Mode",
   "config.compass.minimalist.toggle.comment": "Hides all the colourful bits.",
-  "config.compass.scale.double": "Compass scale.",
+  "config.compass.scale.double": "Compass scale",
   "config.compass.scale.double.comment": "How far the compass icons are apart.",
   "config.compass.dir_scale.double": "Direction Size",
   "config.compass.dir_scale.double.comment": "How big the direction icons are.",

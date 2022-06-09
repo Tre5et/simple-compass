@@ -24,7 +24,7 @@ public class WaypointTools {
     public static void onSetWaypointToPlayer(String name) {
         MinecraftClient cli = MinecraftClient.getInstance();
         if(cli.player != null) {
-            double coordScale = cli.player.clientWorld.getDimension().getCoordinateScale();
+            double coordScale = cli.player.clientWorld.getDimension().coordinateScale();
             double[] pos = PlayerTools.getPos();
             IntegerConfig[] configs = getCoordinateOptions(name);
 

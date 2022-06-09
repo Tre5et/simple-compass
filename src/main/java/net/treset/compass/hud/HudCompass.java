@@ -92,7 +92,7 @@ public class HudCompass {
         double[] pos = PlayerTools.getPos();
 
         assert cli.player != null;
-        double coordScale = cli.player.clientWorld.getDimension().getCoordinateScale();
+        double coordScale = cli.player.clientWorld.getDimension().coordinateScale();
 
         double posX = pos[0] * coordScale;
         double posZ = pos[1] * coordScale;

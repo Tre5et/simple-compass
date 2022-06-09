@@ -15,7 +15,7 @@ This mod requires [VanillaConfig](https://www.curseforge.com/minecraft/mc-mods/v
 
 Put the .jar file from [releases](https://github.com/Tre5et/simple-compass/releases) into your Minecraft Mod folder.
 
-## List of features (v1.5.0)
+## List of features (v1.6)
 
 - simple, clean compass bar
 - easy to use ingame settings menu
