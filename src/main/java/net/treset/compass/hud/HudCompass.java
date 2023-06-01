@@ -2,7 +2,7 @@ package net.treset.compass.hud;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
@@ -33,7 +33,7 @@ public class HudCompass {
 
     public static boolean forceUpdateNextFrame = false;
 
-    public static void handleCompass(MatrixStack matrices) {
+    public static void handleCompass(DrawContext ctx) {
 
         cam = cli.getCameraEntity(); //set camera / cancel if no camera is present
 
@@ -51,7 +51,7 @@ public class HudCompass {
 
         updatePositions(tileSize);
 
-        renderCompass(matrices, tileSize, tWidth, tHeight);
+        renderCompass(ctx, tileSize, tWidth, tHeight);
     }
 
     public static double getYaw() {
@@ -188,7 +188,7 @@ public class HudCompass {
         }
     }
 
-    private static void renderCompass(MatrixStack matrices, int tileSize, int tWidth, int tHeight) {
+    private static void renderCompass(DrawContext ctx, int tileSize, int tWidth, int tHeight) {
         double dirScale = Config.DIR_SIZE.getDouble(); //handle direction scale
         double wpScale = Config.WP_SIZE.getDouble(); //handle waypoint scale
         int yOffset = (Config.MINIMALIST_MODE.getBoolean()) ? tileSize * 2 : 0; //handle minimalist mode
@@ -205,16 +205,15 @@ public class HudCompass {
 
         BooleanConfig[] wpShow = Config.Lists.WP_SHOW_OPTIONS;
 
-        RenderSystem.setShaderTexture(0, SPRITESHEET); //set spritesheet as texture to draw
         if(shouldDrawDirections()) {
             for (int i = 0; i < 4; i++) { //two loops so waypoints render over directions
-                DrawableHelper.drawTexture(matrices, imgPos[i], 5, i * sizeDir, vDir, sizeDir, sizeDir, tWidthDir, tHeightDir); //draw direction sprites
+                ctx.drawTexture(SPRITESHEET, imgPos[i], 5, i * sizeDir, vDir, sizeDir, sizeDir, tWidthDir, tHeightDir); //draw direction sprites
             }
         }
         if(shouldDrawWaypoints()) {
             for (int i = 3; i >= 0; i--) { //render waypoints a last for top layer
                 if (wpShow[i].getBoolean())
-                    DrawableHelper.drawTexture(matrices, imgPos[i + 4], 5, i * sizeWp, vWp, sizeWp, sizeWp, tWidthWp, tHeightWp); //draw waypoint sprites
+                    ctx.drawTexture(SPRITESHEET, imgPos[i + 4], 5, i * sizeWp, vWp, sizeWp, sizeWp, tWidthWp, tHeightWp); //draw waypoint sprites
             }
         }
     }

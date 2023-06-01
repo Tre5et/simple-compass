@@ -23,8 +23,8 @@ public class PlayerTools {
         PlayerEntity player = MinecraftClient.getInstance().player;
         if(MinecraftClient.getInstance().player == null) return false;
 
-        return player.getMainHandStack().isItemEqual(new ItemStack(Items.COMPASS)) ||
-                player.getOffHandStack().isItemEqual(new ItemStack(Items.COMPASS));
+        return player.getMainHandStack().isOf(Items.COMPASS) ||
+                player.getOffHandStack().isOf(Items.COMPASS);
     }
 
     public static boolean hasCompassInHotbar() {
@@ -32,12 +32,12 @@ public class PlayerTools {
         if(MinecraftClient.getInstance().player == null) return false;
 
         for(int i = 0; i < 9; i++) {
-            if(player.getInventory().getStack(i).isItemEqual(new ItemStack(Items.COMPASS))) {
+            if(player.getInventory().getStack(i).isOf(Items.COMPASS)) {
                 return true;
             }
         }
 
-        return player.getOffHandStack().isItemEqual(new ItemStack(Items.COMPASS));
+        return player.getOffHandStack().isOf(Items.COMPASS);
     }
 
     public static boolean hasCompassInInventory() {
@@ -45,6 +45,6 @@ public class PlayerTools {
         if(MinecraftClient.getInstance().player == null) return false;
 
         return player.getInventory().getSlotWithStack(new ItemStack(Items.COMPASS)) >= 0
-                || player.getOffHandStack().isItemEqual(new ItemStack(Items.COMPASS));
+                || player.getOffHandStack().isOf(Items.COMPASS);
     }
 }

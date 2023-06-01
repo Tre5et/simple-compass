@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.0-SNAPSHOT'
+	id 'fabric-loom' version '1.2-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -18,6 +18,10 @@ repositories {
 
 	maven {
 		url 'https://masa.dy.fi/maven'
+	}
+
+	flatDir {
+		dirs 'run/mods'
 	}
 
 	// Add repositories to retrieve artifacts from in here.
