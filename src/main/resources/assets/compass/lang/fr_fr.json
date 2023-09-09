@@ -17,8 +17,6 @@
   "config.compass.wp_display_mode.list.hotbar.comment": "Les waypoints seront affichés si une boussole est dans la barre d'action.",
   "config.compass.wp_display_mode.list.inventory.comment": "Les waypoints seront affichés si une boussole est dans l'inventaire.",
   "config.compass.wp_display_mode.list.never.comment": "Les waypoints ne seront jamais affichées.",
-  "config.compass.minimalist.toggle": "Mode minimaliste",
-  "config.compass.minimalist.toggle.comment": "Masque tous les éléments colorés.",
   "config.compass.scale.double": "Échelle de la boussole",
   "config.compass.scale.double.comment": "Distance entre les icônes de la boussole.",
   "config.compass.dir_scale.double": "Taille de la direction",
@@ -27,7 +25,6 @@
   "config.compass.wp_scale.double.comment": "Quelle est la taille des icônes de waypoint.",
   "config.compass.open_config.keybind": "Ouvrir les paramètres",
   "config.compass.open_config.keybind.comment": "",
-
   "config.compass.waypoints.page": "Waypoints",
   "config.compass.waypoints.a.toggle": "Waypoint A affiché",
   "config.compass.waypoints.a.toggle.comment": "",
@@ -61,3 +58,4 @@
   "config.compass.waypoints.d.z.comment": "",
   "config.compass.waypoints.d.to_player": "Définir le Waypoint D sur le joueur",
   "config.compass.waypoints.d.to_player.comment": ""
+}

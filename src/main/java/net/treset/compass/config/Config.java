@@ -5,6 +5,7 @@ import com.google.gson.JsonPrimitive;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import net.treset.compass.CompassClient;
+import net.treset.compass.CompassMod;
 import net.treset.compass.tools.KeybindTools;
 import net.treset.compass.tools.WaypointTools;
 import net.treset.vanillaconfig.config.*;
@@ -30,7 +31,6 @@ public class Config {
 
     public static final ListConfig DIR_DISPLAY_MODE = new ListConfig(ConfigLists.displayMode, 0, "config.compass.dir_display_mode.list", ConfigLists.dirDisplayModeComments);
     public static final ListConfig WP_DISPLAY_MODE = new ListConfig(ConfigLists.displayMode, 0, "config.compass.wp_display_mode.list", ConfigLists.wpDisplayModeComments);
-    public static final BooleanConfig MINIMALIST_MODE = new BooleanConfig(false, "config.compass.minimalist.toggle", "config.compass.minimalist.toggle.comment");
     public static final DoubleConfig COMPASS_SCALE = new DoubleConfig(2, 1, 15, "config.compass.scale.double", "config.compass.scale.double.comment");
     public static final DoubleConfig DIR_SIZE = new DoubleConfig(1, 0.1, 10, "config.compass.dir_scale.double", "config.compass.dir_scale.double.comment");
     public static final DoubleConfig WP_SIZE = new DoubleConfig(1, 0.1, 10, "config.compass.wp_scale.double", "config.compass.wp_scale.double.comment");
@@ -60,7 +60,6 @@ public class Config {
         public static final BaseConfig[] MAIN_PAGE_CONFIGS = new BaseConfig[] {
                 DIR_DISPLAY_MODE,
                 WP_DISPLAY_MODE,
-                MINIMALIST_MODE,
                 COMPASS_SCALE,
                 DIR_SIZE,
                 WP_SIZE,
@@ -206,7 +205,6 @@ public class Config {
         if((newString = getNewDisplayMode(wpDisplayMode.getAsString())) == null) return;
         WP_DISPLAY_MODE.setOption(newString);
 
-        MINIMALIST_MODE.migrateFrom("General/Minimalist Mode");
         COMPASS_SCALE.migrateFrom("General/Compass Scale");
         DIR_SIZE.migrateFrom("General/Direction Size");
         WP_SIZE.migrateFrom("General/Waypoint Size");
@@ -270,7 +268,7 @@ public class Config {
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
+                CompassMod.LOGGER.error("Error migrating hotkey", e);
             }
         }
     }
@@ -281,7 +279,7 @@ public class Config {
         List<String> list = new ArrayList<>(List.of(Objects.requireNonNull(dir.list())));
         list.remove("waypoints");
         list.remove("compass.json");
-        if(list.size() == 0) return;
+        if(list.isEmpty()) return;
 
         for(BooleanConfig e : Lists.WP_SHOW_OPTIONS) {
             e.migrateFrom("/Show Waypoint " + e.getKey().split("\\.")[3].toUpperCase()

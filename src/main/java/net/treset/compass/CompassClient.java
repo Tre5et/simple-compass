@@ -1,6 +1,10 @@
 package net.treset.compass;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.util.Identifier;
 import net.treset.compass.config.Config;
 import net.treset.vanillaconfig.screen.ConfigScreen;
 
@@ -12,6 +16,10 @@ public class CompassClient implements ClientModInitializer {
     public void onInitializeClient() {
         Config.init();
 
-        CompassMod.LOGGER.info("Client initialized!");
+        FabricLoader.getInstance().getModContainer(CompassMod.MOD_ID).ifPresent(modContainer -> {
+            ResourceManagerHelper.registerBuiltinResourcePack(new Identifier(CompassMod.MOD_ID, "minimal"),  modContainer, ResourcePackActivationType.NORMAL);
+            ResourceManagerHelper.registerBuiltinResourcePack(new Identifier(CompassMod.MOD_ID, "dark"),  modContainer, ResourcePackActivationType.NORMAL);
+            ResourceManagerHelper.registerBuiltinResourcePack(new Identifier(CompassMod.MOD_ID, "dark_minimal"),  modContainer, ResourcePackActivationType.NORMAL);
+        });
     }
 }

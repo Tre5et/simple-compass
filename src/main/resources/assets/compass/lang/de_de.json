@@ -17,8 +17,6 @@
   "config.compass.wp_display_mode.list.hotbar.comment": "Wegpunkte werden nur angezeigt, wenn der Spieler einen Kompass in der Hotbar hat.",
   "config.compass.wp_display_mode.list.inventory.comment": "Wegpunkte werden nur angezeigt, wenn der Spieler einen Kompass im Inventar hat.",
   "config.compass.wp_display_mode.list.never.comment": "Wegpunkte werden nie angezeigt.",
-  "config.compass.minimalist.toggle": "Minimaler Modus",
-  "config.compass.minimalist.toggle.comment": "Versteckt alle farbigen Dinge.",
   "config.compass.scale.double": "Kompass Breite.",
   "config.compass.scale.double.comment": "Wie weit die Himmelsrichtugen auseinander sind.",
   "config.compass.dir_scale.double": "Himmelsrichtungen Größe",
