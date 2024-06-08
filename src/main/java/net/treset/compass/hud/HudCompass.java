@@ -15,20 +15,20 @@ import java.util.List;
 
 public class HudCompass {
 
-    private static final Identifier COMPASS_NORTH = new Identifier(CompassMod.MOD_ID, "textures/gui/sprites/hud/compass_north.png");
-    private static final Identifier COMPASS_WEST = new Identifier(CompassMod.MOD_ID, "textures/gui/sprites/hud/compass_west.png");
-    private static final Identifier COMPASS_SOUTH = new Identifier(CompassMod.MOD_ID, "textures/gui/sprites/hud/compass_south.png");
-    private static final Identifier COMPASS_EAST = new Identifier(CompassMod.MOD_ID, "textures/gui/sprites/hud/compass_east.png");
+    private static final Identifier COMPASS_NORTH = Identifier.of(CompassMod.MOD_ID, "textures/gui/sprites/hud/compass_north.png");
+    private static final Identifier COMPASS_WEST = Identifier.of(CompassMod.MOD_ID, "textures/gui/sprites/hud/compass_west.png");
+    private static final Identifier COMPASS_SOUTH = Identifier.of(CompassMod.MOD_ID, "textures/gui/sprites/hud/compass_south.png");
+    private static final Identifier COMPASS_EAST = Identifier.of(CompassMod.MOD_ID, "textures/gui/sprites/hud/compass_east.png");
     private static final List<Identifier> COMPASS_DIRECTIONS = Arrays.asList(
             COMPASS_NORTH,
             COMPASS_WEST,
             COMPASS_SOUTH,
             COMPASS_EAST
     );
-    private static final Identifier COMPASS_WAYPOINT_A = new Identifier(CompassMod.MOD_ID, "textures/gui/sprites/hud/compass_waypoint_a.png");
-    private static final Identifier COMPASS_WAYPOINT_B = new Identifier(CompassMod.MOD_ID, "textures/gui/sprites/hud/compass_waypoint_b.png");
-    private static final Identifier COMPASS_WAYPOINT_C = new Identifier(CompassMod.MOD_ID, "textures/gui/sprites/hud/compass_waypoint_c.png");
-    private static final Identifier COMPASS_WAYPOINT_D = new Identifier(CompassMod.MOD_ID, "textures/gui/sprites/hud/compass_waypoint_d.png");
+    private static final Identifier COMPASS_WAYPOINT_A = Identifier.of(CompassMod.MOD_ID, "textures/gui/sprites/hud/compass_waypoint_a.png");
+    private static final Identifier COMPASS_WAYPOINT_B = Identifier.of(CompassMod.MOD_ID, "textures/gui/sprites/hud/compass_waypoint_b.png");
+    private static final Identifier COMPASS_WAYPOINT_C = Identifier.of(CompassMod.MOD_ID, "textures/gui/sprites/hud/compass_waypoint_c.png");
+    private static final Identifier COMPASS_WAYPOINT_D = Identifier.of(CompassMod.MOD_ID, "textures/gui/sprites/hud/compass_waypoint_d.png");
     private static final List<Identifier> COMPASS_WAYPOINTS = Arrays.asList(
             COMPASS_WAYPOINT_A,
             COMPASS_WAYPOINT_B,

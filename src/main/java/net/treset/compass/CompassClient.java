@@ -17,9 +17,9 @@ public class CompassClient implements ClientModInitializer {
         Config.init();
 
         FabricLoader.getInstance().getModContainer(CompassMod.MOD_ID).ifPresent(modContainer -> {
-            ResourceManagerHelper.registerBuiltinResourcePack(new Identifier(CompassMod.MOD_ID, "minimal"),  modContainer, ResourcePackActivationType.NORMAL);
-            ResourceManagerHelper.registerBuiltinResourcePack(new Identifier(CompassMod.MOD_ID, "dark"),  modContainer, ResourcePackActivationType.NORMAL);
-            ResourceManagerHelper.registerBuiltinResourcePack(new Identifier(CompassMod.MOD_ID, "dark_minimal"),  modContainer, ResourcePackActivationType.NORMAL);
+            ResourceManagerHelper.registerBuiltinResourcePack(Identifier.of(CompassMod.MOD_ID, "minimal"),  modContainer, ResourcePackActivationType.NORMAL);
+            ResourceManagerHelper.registerBuiltinResourcePack(Identifier.of(CompassMod.MOD_ID, "dark"),  modContainer, ResourcePackActivationType.NORMAL);
+            ResourceManagerHelper.registerBuiltinResourcePack(Identifier.of(CompassMod.MOD_ID, "dark_minimal"),  modContainer, ResourcePackActivationType.NORMAL);
         });
     }
 }
