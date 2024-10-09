@@ -2,6 +2,7 @@ package net.treset.compass.hud;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import net.treset.compass.CompassMod;
@@ -214,13 +215,13 @@ public class HudCompass {
 
         if(shouldDrawDirections()) {
             for (int i = 0; i < 4; i++) { //two loops so waypoints render over directions
-                ctx.drawTexture(COMPASS_DIRECTIONS.get(i), imgPos[i] - dirOffset, 5, 0, 0, sizeDir, sizeDir, sizeDir, sizeDir); //draw direction sprites
+                ctx.drawTexture(RenderLayer::getGuiTextured, COMPASS_DIRECTIONS.get(i), imgPos[i] - dirOffset, 5, 0, 0, sizeDir, sizeDir, sizeDir, sizeDir); //draw direction sprites
             }
         }
         if(shouldDrawWaypoints()) {
             for (int i = 3; i >= 0; i--) { //render waypoints a last for top layer
                 if (wpShow[i].getBoolean())
-                    ctx.drawTexture(COMPASS_WAYPOINTS.get(i), imgPos[i + 4] - wpOffset, 5, 0, 0, sizeWp, sizeWp, sizeWp, sizeWp); //draw waypoint sprites
+                    ctx.drawTexture(RenderLayer::getGuiTextured, COMPASS_WAYPOINTS.get(i), imgPos[i + 4] - wpOffset, 5, 0, 0, sizeWp, sizeWp, sizeWp, sizeWp); //draw waypoint sprites
             }
         }
     }
