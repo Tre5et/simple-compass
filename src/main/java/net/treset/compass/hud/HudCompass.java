@@ -53,6 +53,7 @@ public class HudCompass {
     public static boolean forceUpdateNextFrame = false;
 
     public static void handleCompass(DrawContext ctx) {
+        if(cli.options.hudHidden) return;
 
         cam = cli.getCameraEntity(); //set camera / cancel if no camera is present
 
