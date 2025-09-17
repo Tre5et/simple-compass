@@ -6,7 +6,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import net.treset.compass.CompassClient;
 import net.treset.compass.CompassMod;
-import net.treset.compass.tools.KeybindTools;
 import net.treset.compass.tools.WaypointTools;
 import net.treset.vanillaconfig.config.*;
 import net.treset.vanillaconfig.config.base.BaseConfig;
@@ -170,7 +169,7 @@ public class Config {
             e.onClickR(WaypointTools::onSetWaypointToPlayer);
         }
 
-        OPEN_CONFIG.onPressed(KeybindTools::openConfig);
+        OPEN_CONFIG.onPressed(n -> MinecraftClient.getInstance().setScreen(CompassClient.CONFIG_SCREEN));
 
         MAIN_PAGE.loadVersion();
         if(!MAIN_PAGE.hasVersion()) {

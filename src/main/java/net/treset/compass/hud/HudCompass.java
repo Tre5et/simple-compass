@@ -107,7 +107,7 @@ public class HudCompass {
         double[] pos = PlayerTools.getPos();
 
         assert cli.player != null;
-        double coordScale = cli.player.clientWorld.getDimension().coordinateScale();
+        double coordScale = cli.player.getEntityWorld().getDimension().coordinateScale();
 
         double posX = pos[0] * coordScale;
         double posZ = pos[1] * coordScale;
@@ -200,11 +200,6 @@ public class HudCompass {
     private static void renderCompass(DrawContext ctx) {
         double dirScale = Config.DIR_SIZE.getDouble(); //handle direction scale
         double wpScale = Config.WP_SIZE.getDouble(); //handle waypoint scale
-
-        /*int tWidthDir = (int) (tWidth * dirScale);
-        int tHeightDir = (int) (tHeight * dirScale);
-        int tWidthWp = (int) (tWidth * wpScale);
-        int tHeightWp = (int) (tHeight * wpScale);*/
 
         int sizeDir = (int) (32 * dirScale);
         int sizeWp = (int) (32 * wpScale);
