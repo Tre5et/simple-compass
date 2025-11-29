@@ -7,6 +7,6 @@ import net.treset.compass.CompassClient;
 public class ModMenuCompat implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() { //set config screen as modmenu options
-        return screen -> CompassClient.CONFIG_SCREEN;
+        return screen -> CompassClient.getConfigScreen();
     }
 }

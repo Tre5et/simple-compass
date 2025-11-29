@@ -12,7 +12,6 @@ import net.treset.vanillaconfig.config.base.BaseConfig;
 import net.treset.vanillaconfig.config.base.SlideableConfig;
 import net.treset.vanillaconfig.config.managers.SaveLoadManager;
 import net.treset.vanillaconfig.config.version.ConfigVersion;
-import net.treset.vanillaconfig.screen.ConfigScreen;
 import net.treset.vanillaconfig.tools.FileTools;
 import org.lwjgl.glfw.GLFW;
 
@@ -169,7 +168,7 @@ public class Config {
             e.onClickR(WaypointTools::onSetWaypointToPlayer);
         }
 
-        OPEN_CONFIG.onPressed(n -> MinecraftClient.getInstance().setScreen(CompassClient.CONFIG_SCREEN));
+        OPEN_CONFIG.onPressed(n -> MinecraftClient.getInstance().setScreen(CompassClient.getConfigScreen()));
 
         MAIN_PAGE.loadVersion();
         if(!MAIN_PAGE.hasVersion()) {
@@ -180,8 +179,6 @@ public class Config {
 
         SaveLoadManager.globalSaveConfig(MAIN_PAGE);
         SaveLoadManager.worldSaveConfig(WAYPOINTS_PAGE);
-
-        CompassClient.CONFIG_SCREEN = new ConfigScreen(MAIN_PAGE, MinecraftClient.getInstance().currentScreen);
     }
 
     public static void migrateFromMalilib() {

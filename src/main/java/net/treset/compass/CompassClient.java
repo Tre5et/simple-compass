@@ -4,13 +4,16 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 import net.treset.compass.config.Config;
 import net.treset.vanillaconfig.screen.ConfigScreen;
 
 public class CompassClient implements ClientModInitializer {
 
-    public static ConfigScreen CONFIG_SCREEN;
+    public static ConfigScreen getConfigScreen() {
+        return new ConfigScreen(Config.MAIN_PAGE, MinecraftClient.getInstance().currentScreen);
+    }
 
     @Override
     public void onInitializeClient() {
