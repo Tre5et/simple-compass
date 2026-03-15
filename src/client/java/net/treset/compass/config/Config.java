@@ -2,8 +2,8 @@ package net.treset.compass.config;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.InputUtil;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.Minecraft;
 import net.treset.compass.CompassClient;
 import net.treset.compass.CompassMod;
 import net.treset.compass.tools.WaypointTools;
@@ -134,8 +134,8 @@ public class Config {
 
     public static void init() {
         MAIN_PAGE.setOptions(Lists.MAIN_PAGE_CONFIGS);
-        MAIN_PAGE.setSaveName("compass");
-        MAIN_PAGE.setPath("compass");
+        MAIN_PAGE.setSaveName("assets/compass");
+        MAIN_PAGE.setPath("assets/compass");
 
         for(BaseConfig e : Lists.SIZE_OPTIONS) {
             e.setFullWidth(false);
@@ -143,7 +143,7 @@ public class Config {
 
         WAYPOINTS_PAGE.setOptions(Lists.WAYPOINTS_PAGE_CONFIGS);
         WAYPOINTS_PAGE.setSaveName("waypoints");
-        WAYPOINTS_PAGE.setPath("compass");
+        WAYPOINTS_PAGE.setPath("assets/compass");
 
         for(SlideableConfig e : Lists.SLIDER_CONFIGS) {
             e.setSlider(true);
@@ -160,7 +160,6 @@ public class Config {
 
         for(IntegerConfig e : Lists.WP_COORD_OPTIONS) {
             e.setFullWidth(false);
-            e.onChange(WaypointTools::onChangeWaypoint);
         }
 
         for(ButtonConfig e : Lists.WP_PLAYER_OPTIONS) {
@@ -168,7 +167,7 @@ public class Config {
             e.onClickR(WaypointTools::onSetWaypointToPlayer);
         }
 
-        OPEN_CONFIG.onPressed(n -> MinecraftClient.getInstance().setScreen(CompassClient.getConfigScreen()));
+        OPEN_CONFIG.onPressed(_ -> Minecraft.getInstance().setScreen(CompassClient.getConfigScreen()));
 
         MAIN_PAGE.loadVersion();
         if(!MAIN_PAGE.hasVersion()) {
@@ -239,15 +238,14 @@ public class Config {
                         }
 
                         if(keyName.isEmpty()) return;
-                        InputUtil.Key key;
+                        InputConstants.Key key;
                         try {
-                            key = InputUtil.fromTranslationKey(keyName);
+                            key = InputConstants.getKey(keyName);
                         } catch(IllegalArgumentException e) {
                             return;
                         }
-                        if(key == null) return;
 
-                        int keyCode = key.getCode();
+                        int keyCode = key.getValue();
                         int scanCode;
                         try {
                             scanCode = GLFW.glfwGetKeyScancode(keyCode);

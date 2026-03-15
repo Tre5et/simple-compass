@@ -35,8 +35,8 @@
 
   "depends": {
     "fabricloader": ">=0.14.20",
-    "vanillaconfig": ">=1.2.12",
-    "minecraft": ["~1.21.9"],
+    "vanillaconfig": "*",
+    "minecraft": ["~26.1-"],
     "java": ">=21"
   },
   "suggests": {
