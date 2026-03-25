@@ -30,13 +30,16 @@
     ]
   },
   "mixins": [
-    "compass.mixins.json"
+      {
+          "config": "compass.client.mixins.json",
+          "environment": "client"
+      }
   ],
 
   "depends": {
     "fabricloader": ">=0.14.20",
-    "vanillaconfig": ">=1.2.12",
-    "minecraft": ["~1.21.9"],
+    "vanillaconfig": "~1.2.16-",
+    "minecraft": ["~26.1-"],
     "java": ">=21"
   },
   "suggests": {
