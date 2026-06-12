@@ -12,7 +12,7 @@ import net.treset.vanillaconfig.screen.ConfigScreen;
 public class CompassClient implements ClientModInitializer {
 
     public static ConfigScreen getConfigScreen() {
-        return new ConfigScreen(Config.MAIN_PAGE, Minecraft.getInstance().screen);
+        return new ConfigScreen(Config.MAIN_PAGE, Minecraft.getInstance().gui.screen());
     }
 
     @Override
