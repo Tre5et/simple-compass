@@ -167,7 +167,7 @@ public class Config {
             e.onClickR(WaypointTools::onSetWaypointToPlayer);
         }
 
-        OPEN_CONFIG.onPressed(_ -> Minecraft.getInstance().setScreen(CompassClient.getConfigScreen()));
+        OPEN_CONFIG.onPressed(_ -> Minecraft.getInstance().setScreenAndShow(CompassClient.getConfigScreen()));
 
         MAIN_PAGE.loadVersion();
         if(!MAIN_PAGE.hasVersion()) {

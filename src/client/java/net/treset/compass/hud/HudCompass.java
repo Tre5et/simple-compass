@@ -40,7 +40,7 @@ public class HudCompass {
     private static final Minecraft minecraft = Minecraft.getInstance();
 
     public static void handleCompass(GuiGraphicsExtractor ctx, DeltaTracker tracker) {
-        if(minecraft.options.hideGui || (!shouldDrawDirections() && !shouldDrawWaypoints())) return;
+        if(minecraft.gui.hud.isHidden() || (!shouldDrawDirections() && !shouldDrawWaypoints())) return;
         Entity camera = minecraft.getCameraEntity();
         if(camera == null) return;
 
