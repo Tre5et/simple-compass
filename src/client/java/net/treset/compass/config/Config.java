@@ -13,7 +13,6 @@ import net.treset.vanillaconfig.config.base.SlideableConfig;
 import net.treset.vanillaconfig.config.managers.SaveLoadManager;
 import net.treset.vanillaconfig.config.version.ConfigVersion;
 import net.treset.vanillaconfig.tools.FileTools;
-import org.lwjgl.glfw.GLFW;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -35,7 +34,7 @@ public class Config {
 
     public static final PageConfig WAYPOINTS_PAGE = new PageConfig("config.compass.waypoints.page");
 
-    public static final KeybindConfig OPEN_CONFIG = new KeybindConfig(new int[]{0x23} /*H*/, 0, 5, "config.compass.open_config.keybind", "config.compass.open_config.keybind.comment");
+    public static final KeybindConfig OPEN_CONFIG = new KeybindConfig(new int[]{InputConstants.KEY_H} /*H*/, 0, 5, "config.compass.open_config.keybind", "config.compass.open_config.keybind.comment");
 
     public static final BooleanConfig WP_A_SHOW = new BooleanConfig(false, "config.compass.waypoints.a.toggle", "config.compass.waypoints.a.toggle.comment");
     public static final IntegerConfig WP_A_X = new IntegerConfig(0, -1000000000, 100000000, "config.compass.waypoints.a.x", "config.compass.waypoints.a.x.comment");
@@ -134,8 +133,8 @@ public class Config {
 
     public static void init() {
         MAIN_PAGE.setOptions(Lists.MAIN_PAGE_CONFIGS);
-        MAIN_PAGE.setSaveName("assets/compass");
-        MAIN_PAGE.setPath("assets/compass");
+        MAIN_PAGE.setSaveName("compass");
+        MAIN_PAGE.setPath("compass");
 
         for(BaseConfig e : Lists.SIZE_OPTIONS) {
             e.setFullWidth(false);
@@ -143,7 +142,7 @@ public class Config {
 
         WAYPOINTS_PAGE.setOptions(Lists.WAYPOINTS_PAGE_CONFIGS);
         WAYPOINTS_PAGE.setSaveName("waypoints");
-        WAYPOINTS_PAGE.setPath("assets/compass");
+        WAYPOINTS_PAGE.setPath("compass");
 
         for(SlideableConfig e : Lists.SLIDER_CONFIGS) {
             e.setSlider(true);
@@ -222,8 +221,6 @@ public class Config {
     }
 
     public static void loadOpenHotkey() {
-        if(!GLFW.glfwInit()) return;
-
         File optionsFile = new File("./options.txt"); //migrate keybinding
         if(optionsFile.exists() && optionsFile.isFile() && optionsFile.canRead()) {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(optionsFile), StandardCharsets.UTF_8))) {
@@ -246,16 +243,7 @@ public class Config {
                         }
 
                         int keyCode = key.getValue();
-                        int scanCode;
-                        try {
-                            scanCode = GLFW.glfwGetKeyScancode(keyCode);
-                        } catch (IllegalStateException e) {
-                            return;
-                        }
-
-                        if(scanCode <= 0) return;
-
-                        OPEN_CONFIG.setKeys(new int[]{scanCode});
+                        OPEN_CONFIG.setKeys(new int[]{keyCode});
 
                         break;
                     }
